@@ -1,0 +1,203 @@
+
+/*********************/
+/* BASIC */
+/*********************/
+body {
+	font-family: "Century Gothic", "Gill Sans", Arial, sans-serif;
+	font-size: 92.5%;
+	margin: 0;
+	padding: 0;
+/*	background-color: #FFFFFF; */
+	background: url(../to_images/bg/bg_column.png) repeat-y right top;
+}
+p,h1,h2,h3,h4,h5,h5,ol,ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+
+/*********************/
+/* BANNER STYLES */
+/*********************/
+
+#banner {
+	background: url(../to_images/bg/banner_bg.jpg) repeat-x left top;
+	position: relative;
+	border: 1px solid black;
+}
+
+/*********************/
+/* MAIN NAV */
+/*********************/
+#nav {
+        margin-bottom: 0px;
+        position: absolute;
+        top: 75px;
+        left: 5px;
+}
+#nav li {
+        list-style-type: none;
+        padding: 0px;
+        margin: 0;
+        float: left;
+		cursor: pointer;
+}
+
+#nav span {
+        display: block;
+        font-size: 11px;
+        color: #D6ECAE;
+        text-decoration: none;
+        background-color: #294E56;
+        padding: 2px 2px 2px 3px;
+        width: 10em;
+        margin-left: 2px;
+        border-right: 1px solid #73AFB7;
+        border-bottom: 1px solid #73AFB7;
+        font-weight: bold;
+        margin-bottom: 2px;
+}
+#logo {
+	background: url(../to_images/bg/banner_flower.jpg) no-repeat right top;
+/*	background: url(images/bg/arvore.png) no-repeat right top; */
+	height: 100px;
+}
+
+/*********************/
+/* MAIN */
+/*********************/
+#main {
+	margin-right: 240px;
+}
+h1 {
+        color: #294E56;
+        margin-top: 10px;
+        font-size: 2.0em;
+        border-top: 4px solid #294E56;
+        line-height: 100%;
+}
+h2 {
+        color: #F4BE04;
+        font-size: 1.6em;
+        margin-top: 10px;
+        overflow: hidden;
+        padding-top: 0px;
+        background: url(../to_images/bg/bg_h2.gif) repeat-x left bottom;
+}
+p {
+        color: #666666;
+        font-size: 1.3em;
+}
+.section {
+        display: inline;
+        color: #999999;
+        font-weight: normal;
+}
+.floatRight {
+        float: right;
+        margin: 5px 10px 2px 15px;
+}
+img.floatRight {
+        border: 0; /* 2px solid #000000; */
+}
+
+/**********************/
+/*     DIVs DINAMICAS */
+/**********************/
+#ladoA {
+	float: left;
+	display: inline-block;
+	width: 60%;
+	/* background-color: red; */
+}
+#ladoB {
+	float:right;
+	width: 40%;
+	/* width:300px; */
+	display: inline-block;
+	/* background-color: blue; */
+}
+ /*********************/
+ /* SIDEBAR */
+ /*********************/
+#secondary {
+	float: right;
+	width: 200px;
+	margin-top: 10px;
+/*	background-color: #FDE38E; */
+	color: #736B5D;
+}
+#secondary h3 {
+	font-size: 1.5em;
+	background: #73AFB7;
+	padding: 3px 5px 3px 10px;
+}
+#secondary p {
+	font-size: 1.2em;
+	margin: 3px 10px 10px 10px;
+	line-height: 110%;
+}
+
+#secondary .center {
+display: block;
+  margin-left: auto;
+  margin-right: auto;
+/*  width: 50%; */
+
+}
+/*********************/
+/* LADO-A */
+/*********************/
+#ladoA .selclasse{
+	/*background: #DF5B5D;
+	border: 10px dashed #FEFEFE;
+	max-width: 550px;
+	min-height: 88px;*/
+	text-align: center;
+	margin: auto;
+	/* top:200px; */
+	/* margin-top: 100px; */
+	padding:2em;
+	/*padding: 70px 70px 70px 70px; */
+}
+#ladoA #field01 {
+	padding: 1.6em;
+	border-width:6px;
+	font-size:1.6em;
+  	border-color: #F00;
+  	border-style: solid;
+  	max-width:80%;
+    border-radius:8px;
+}
+#ladoA #field02 {
+	padding: 1.6em;
+	border-width:6px;
+	font-size:1.6em;
+  	border-color: blue;
+  	border-style: solid;
+  	max-width:80%;
+    border-radius:8px;
+}
+#ladoA #field03 {
+	padding: 1.6em;
+	border-width:6px;
+	font-size:1.6em;
+  	border-color: green;
+  	border-style: solid;
+  	max-width:80%;
+    border-radius:8px;
+}
+
+#optindice,#optindice2,#optindice3 {
+	background-color: yellow;
+}
+/*********************/
+/* FOOTER */
+/*********************/
+#footer {
+		margin-top: 15px;
+        border-top: 1px dashed #666666;
+        padding: 10px 0 20px 10px;
+        margin-right: 200px;
+		clear: both;
+}

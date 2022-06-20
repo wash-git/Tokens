@@ -1,0 +1,11 @@
+"id","nome da classe","lft","rgt","opção","pai","grupo","descrição"
+"1","TRANSPORTE","1","19","0","0",,
+"2","AQUATICO","2","7","0","1",,"Aquático"
+"3","MOTOR","3","4","1","0","2","Transporte Aquático Motor"
+"4","VELA","5","6","1","0","2","Transporte Aquático Vela"
+"5","TERRESTRE","8","13","0","1",,"Terrestre"
+"6","MOTOR","9","10","1","0","5","Transporte Terrestre Motor"
+"7","ANIMAL","11","12","1","0","5","Transporte Terrestre Animal"
+"8","AÉREO","14",,"0","1",,"Aéreo"
+"9","COMERCIAL","15","16","1","0","8","Transporte Aéreo Comercial"
+"10","ENTRETENIMENTO","17","18","1","0","8","Transporte Aéreo Entretenimento"

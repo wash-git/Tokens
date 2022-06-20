@@ -1,0 +1,384 @@
+"id","nome da classe","lft","rgt","opção","pai","grupo","descrição"
+"1","TOKEN","1","766","0","0",,
+"2","SUBSTANTIVO","2","41","0","1",,"Substantivo"
+"3","COMUM","3","34","0","0",,
+"4","MASCULINO","4","9","0","0",,
+"5","SINGULAR","5","6","1","0","4","Subst Comum Masculino Singular"
+"6","PLURAL","7","8","1","0","4","Subst Comum Masculino Plural"
+"7","FEMININO","10","15","0","0",,
+"8","SINGULAR","11","12","1","0","7","Subst Comum Feminino Singular"
+"9","PLURAL","13","14","1","0","7","Subst Comum Feminino Plural"
+"10","COMUM-DE-DOIS","16","21","0","0",,
+"11","SINGULAR","17","18","1","0","10","Subst Comum-2 Singular"
+"12","PLURAL","19","20","1","0","10","Subst Comum-2 Plural"
+"13","EPICENO","22","27","0","0",,
+"14","SINGULAR","23","24","1","0","13","Subst Epiceno Singular"
+"15","PLURAL","25","26","1","0","13","Subst Epiceno Plural"
+"16","SOBRECOMUM","28","33","0","0",,
+"17","SINGULAR","29","30","1","0","16","Subst Sobrecomum Singular"
+"18","PLURAL","31","32","1","0","16","Subst Sobrecomum Plural"
+"19","PROPRIO","35","40","0","0",,"Substantivo Próprio"
+"20","PESSOA","36","37","1","0","19","Substantivo Próprio Pessoa"
+"21","CIDADE","38","39","1","0","19","Substantivo Próprio Cidade"
+"22","ADJETIVO","42","143","0","1",,"Adjetivo"
+"23","SIMPLES","43","62","0","0",,"Adjetivo Simples"
+"24","MASCULINO","44","49","0","0",,
+"25","SINGULAR","45","46","1","0","24","Adjetivo Simples Masculino Singular"
+"26","PLURAL","47","48","1","0","24","Adjetivo Simples Masculino Plural"
+"27","FEMININO","50","55","0","0",,
+"28","SINGULAR","51","52","1","0","27","Adjetivo Simples Feminino Singular"
+"29","PLURAL","53","54","1","0","27","Adjetivo Simples Feminino Plural"
+"30","UNIFORME","56","61","0","0",,
+"31","SINGULAR","57","58","1","0","30","Adjetivo Uniforme Singular"
+"32","PLURAL","59","60","1","0","30","Adjetivo Uniforme Plural"
+"33","COMPOSTO","63","82","0","0",,"Adjetivo Composto"
+"34","MASCULINO","64","69","0","0",,
+"35","SINGULAR","65","66","1","0","34","Adjetivo Composto Masculino Singular"
+"36","PLURAL","67","68","1","0","34","Adjetivo Composto Masculino Plural"
+"37","FEMININO","70","75","0","0",,
+"38","SINGULAR","71","72","1","0","37","Adjetivo Composto Feminino Singular"
+"39","PLURAL","73","74","1","0","37","Adjetivo Composto Feminino Plural"
+"40","UNIFORME","76","81","0","0",,
+"41","SINGULAR","77","78","1","0","40","Adjetivo Uniforme Singular"
+"42","PLURAL","79","80","1","0","40","Adjetivo Uniforme Plural"
+"43","PRIMITIVO","83","102","0","0",,"Adjetivo Primitivo"
+"44","MASCULINO","84","89","0","0",,
+"45","SINGULAR","85","86","1","0","44","Adjetivo Primitivo Masculino Singular"
+"46","PLURAL","87","88","1","0","44","Adjetivo Primitivo Masculino Plural"
+"47","FEMININO","90","95","0","0",,
+"48","SINGULAR","91","92","1","0","47","Adjetivo Primitivo Feminino Singular"
+"49","PLURAL","93","94","1","0","47","Adjetivo Primitivo Feminino Plural"
+"50","UNIFORME","96","101","0","0",,
+"51","SINGULAR","97","98","1","0","50","Adjetivo Uniforme Singular"
+"52","PLURAL","99","100","1","0","50","Adjetivo Uniforme Plural"
+"53","DERIVADO","103","122","0","0",,"Adjetivo Derivado"
+"54","MASCULINO","104","109","0","0",,
+"55","SINGULAR","105","106","1","0","55","Adjetivo Derivado Masculino Singular"
+"56","PLURAL","107","108","1","0","55","Adjetivo Derivado Masculino Plural"
+"57","FEMININO","110","115","0","0",,
+"58","SINGULAR","111","112","1","0","57","Adjetivo Derivado Feminino Singular"
+"59","PLURAL","113","114","1","0","57","Adjetivo Derivado Feminino Plural"
+"60","UNIFORME","116","121","0","0",,
+"61","SINGULAR","117","118","1","0","60","Adjetivo Uniforme Singular"
+"62","PLURAL","119","120","1","0","60","Adjetivo Uniforme Plural"
+"63","PATRIO","123","142","0","0",,"Adjetivo Pátrio"
+"64","MASCULINO","124","129","0","0",,
+"65","SINGULAR","125","126","1","0","64","Adjetivo Pátrio Masculino Singular"
+"66","PLURAL","127","128","1","0","64","Adjetivo Pátrio Masculino Plural"
+"67","FEMININO","130","135","0","0",,
+"68","SINGULAR","131","132","1","0","68","Adjetivo Pátrio Feminino Singular"
+"69","PLURAL","133","134","1","0","68","Adjetivo Pátrio Masculino Plural"
+"70","UNIFORME","136","141","0","0",,
+"71","SINGULAR","137","138","1","0","70","Adjetivo Uniforme Singular"
+"72","PLURAL","139","140","1","0","70","Adjetivo Uniforme Plural"
+"73","VERBO","144","597","0","0",,"Verbo"
+"74","VERBAL","145","564","0","0",,"Verbo Verbal"
+"75","PRESENTE","146","187","0","1",,"Verbo Verbal Presente"
+"76","INDICATIVO","147","166","0","0",,"Verbo Verbal Presente Indicativo"
+"77","PESSOA 1","148","153","0","0",,
+"78","SINGULAR","149","150","1","0",77,"Verbo Verbal Presente Indicativo Pessoa-1 Singular"
+"79","PLURAL","151","152","1","0",77,"Verbo Verbal Presente Indicativo Pessoa-1 Plural"
+"80","PESSOA 2","154","159","0","0",,
+"81","SINGULAR","155","156","1","0",80,"Verbo Verbal Presente Indicativo Pessoa-2 Singular"
+"82","PLURAL","157","158","1","0",80,"Verbo Verbal Presente Indicativo Pessoa-2 Plural"
+"83","PESSOA 3","160","165","0","0",,
+"84","SINGULAR","161","162","1","0",83,"Verbo Verbal Presente Indicativo Pessoa-3 Singular"
+"85","PLURAL","163","164","1","0",83,"Verbo Verbal Presente Indicativo Pessoa-3 Plural"
+"86","SUBJUNTIVO","167","186","0","0",,"Verbo Verbal Presente Subjuntivo"
+"87","PESSOA 1","168","173","0","0",,
+"88","SINGULAR","169","170","1","0",87,"Verbo Verbal Presente Subjuntivo Pessoa-1 Singular"
+"89","PLURAL","171","172","1","0",87,"Verbo Verbal Presente Subjuntivo Pessoa-1 Plural"
+"90","PESSOA 2","174","179","0","0",,
+"91","SINGULAR","175","176","1","0",90,"Verbo Verbal Presente Subjuntivo Pessoa-2 Singular"
+"92","PLURAL","177","178","1","0",90,"Verbo Verbal Presente Subjuntivo Pessoa-2 Plural"
+"93","PESSOA 3","180","185","0","0",,
+"94","SINGULAR","181","182","1","0",93,"Verbo Verbal Presente Subjuntivo Pessoa-3 Singular"
+"95","PLURAL","183","184","1","0",93,"Verbo Verbal Presente Subjuntivo Pessoa-3 Plural"
+"96","PRETERITO","188","403","0","1",,"Verbo Verbal Pretérito"
+"97","IMPERFEITO","189","230","0","0",,
+"98","INDICATIVO","190","209","0","0",,"Verbo Verbal Pretérito Imperfeito Indicativo"
+"99","PESSOA 1","191","196","0","0",,
+"100","SINGULAR","192","193","1","0",99,"Verbo Verbal Pretérito Imp. Indicativo Pessoa-1 Singular"
+"101","PLURAL","194","195","1","0",99,"Verbo Verbal Pretérito Imp. Indicativo Pessoa-1 Plural"
+"102","PESSOA 2","197","202","0","0",,
+"103","SINGULAR","198","199","1","0",102,"Verbo Verbal Pretérito Imp. Indicativo Pessoa-2 Singular"
+"104","PLURAL","200","201","1","0",102,"Verbo Verbal Pretérito Imp. Indicativo Pessoa-2 Plural"
+"105","PESSOA 3","203","208","0","0",,
+"106","SINGULAR","204","205","1","0",105,"Verbo Verbal Pretérito Imp. Indicativo Pessoa-3 Singular"
+"107","PLURAL","206","207","1","0",105,"Verbo Verbal Pretérito Imp. Indicativo Pessoa-3 Plural"
+"108","SUBJUNTIVO","210","229","0","0",,"Verbo Verbal Pretérito Imperfeito Subjuntivo"
+"109","PESSOA 1","211","216","0","0",,
+"110","SINGULAR","212","213","1","0",109,"Verbo Verbal Pretérito Imp. Subjuntivo Pessoa-1 Singular"
+"111","PLURAL","214","215","1","0",109,"Verbo Verbal Pretérito Imp. Subjuntivo Pessoa-1 Plural"
+"112","PESSOA 2","217","222","0","0",,
+"113","SINGULAR","218","219","1","0",112,"Verbo Verbal Pretérito Imp. Subjuntivo Pessoa-2 Singular"
+"114","PLURAL","220","221","1","0",112,"Verbo Verbal Pretérito Imp. Subjuntivo Pessoa-2 Plural"
+"115","PESSOA 3","223","228","0","0",,
+"116","SINGULAR","224","225","1","0",115,"Verbo Verbal Pretérito Imp. Subjuntivo Pessoa-3 Singular"
+"117","PLURAL","226","227","1","0",115,"Verbo Verbal Pretérito Imp. Subjuntivo Pessoa-3 Plural"
+"118","PERFEITO","231","316","0","0",,
+"119","SIMPLES","232","273","0","0",,
+"120","INDICATIVO","233","252","0","0",,"Verbo Verbal Pretérito Perfeito Simples Indicativo"
+"121","PESSOA 1","234","239","0","0",,
+"122","SINGULAR","235","236","1","0",121,"Verbo Verbal Pretérito Perf. Simples Indicativo Pessoa-1 Singular"
+"123","PLURAL","237","238","1","0",121,"Verbo Verbal Pretérito Perf. Simples Indicativo Pessoa-1 Plural"
+"124","PESSOA 2","240","245","0","0",,
+"125","SINGULAR","241","242","1","0",124,"Verbo Verbal Pretérito Perf. Simples Indicativo Pessoa-2 Singular"
+"126","PLURAL","243","244","1","0",124,"Verbo Verbal Pretérito Perf. Simples Indicativo Pessoa-2 Plural"
+"127","PESSOA 3","246","251","0","0",,
+"128","SINGULAR","247","248","1","0",127,"Verbo Verbal Pretérito Perf. Simples Indicativo Pessoa-3 Singular"
+"129","PLURAL","249","250","1","0",127,"Verbo Verbal Pretérito Perf. Simples Indicativo Pessoa-3 Plural"
+"130","SUBJUNTIVO","253","272","0","0",,"Verbo Verbal Pretérito Perfeito Simples Subjuntivo"
+"131","PESSOA 1","254","259","0","0",,
+"132","SINGULAR","255","256","1","0",131,"Verbo Verbal Pretérito Perfeito Simples Subjuntivo Pessoa-1 Singular"
+"133","PLURAL","257","258","1","0",131,"Verbo Verbal Pretérito Perfeito Simples Subjuntivo Pessoa-1 Plural"
+"134","PESSOA 2","260","265","0","0",,
+"135","SINGULAR","261","262","1","0",134,"Verbo Verbal Pretérito Perfeito Simples Subjuntivo Pessoa-2 Plural"
+"136","PLURAL","263","264","1","0",134,"Verbo Verbal Pretérito Perfeito Simples Subjuntivo Pessoa-2 Plural"
+"137","PESSOA 3","266","271","0","0",,
+"138","SINGULAR","267","268","1","0",137,"Verbo Verbal Pretérito Perfeito Simples Subjuntivo Pessoa-3 Singular"
+"139","PLURAL","269","270","1","0",137,"Verbo Verbal Pretérito Perfeito Simples Subjuntivo Pessoa-3 Plural"
+"140","COMPOSTO","274","315","0","0",,
+"141","INDICATIVO","275","294","0","0",,"Verbo Verbal Pretérito Perfeito Composto Indicativo"
+"142","PESSOA 1","276","281","0","0",,
+"143","SINGULAR","277","278","1","0",142,"Verbo Verbal Pretérito Perfeito Composto Indicativo Pessoa-1 Singular"
+"144","PLURAL","279","280","1","0",142,"Verbo Verbal Pretérito Perfeito Composto Indicativo Pessoa-1 Plural"
+"145","PESSOA 2","282","287","0","0",,
+"146","SINGULAR","283","284","1","0",145,"Verbo Verbal Pretérito Perfeito Composto Indicativo Pessoa-2 Singular"
+"147","PLURAL","285","286","1","0",145,"Verbo Verbal Pretérito Perfeito Composto Indicativo Pessoa-2 Plural"
+"148","PESSOA 3","288","293","0","0",,
+"149","SINGULAR","289","290","1","0",148,"Verbo Verbal Pretérito Perfeito Composto Indicativo Pessoa-3 Singular"
+"150","PLURAL","291","292","1","0",148,"Verbo Verbal Pretérito Perfeito Composto Indicativo Pessoa-3 Plural"
+"151","SUBJUNTIVO","295","314","0","0",,"Verbo Verbal Pretérito Perfeito Composto Subjuntivo"
+"152","PESSOA 1","296","301","0","0",,
+"153","SINGULAR","297","298","1","0",152,"Verbo Verbal Pretérito Perfeito Composto Subjuntivo Pessoa-1 Singular"
+"154","PLURAL","299","300","1","0",152,"Verbo Verbal Pretérito Perfeito Composto Subjuntivo Pessoa-1 Plural"
+"155","PESSOA 2","302","307","0","0",,
+"156","SINGULAR","303","304","1","0",155,"Verbo Verbal Pretérito Perfeito Composto Subjuntivo Pessoa-2 Singular"
+"157","PLURAL","305","306","1","0",155,"Verbo Verbal Pretérito Perfeito Composto Subjuntivo Pessoa-2 Plural"
+"158","PESSOA 3","308","313","0","0",,
+"159","SINGULAR","309","310","1","0",158,"Verbo Verbal Pretérito Perfeito Composto Subjuntivo Pessoa-3 Singular"
+"160","PLURAL","311","312","1","0",158,"Verbo Verbal Pretérito Perfeito Composto Subjuntivo Pessoa-3 Plural"
+"161","MAIS QUE PERFEITO","317","402","0","0",,
+"162","SIMPLES","318","359","0","0",,
+"163","INDICATIVO","319","338","0","0",,"Verbo Verbal Pretérito Mais Que Perfeito Simples Ind"
+"164","PESSOA 1","320","325","0","0",,
+"165","SINGULAR","321","322","1","0",164,"Verbo Verbal Pretérito Mais Que Perfeito Simples Ind Pessoa-1 Singular"
+"166","PLURAL","323","324","1","0",164,"Verbo Verbal Pretérito Mais Que Perfeito Simples Ind Pessoa-1 Plural"
+"167","PESSOA 2","326","331","0","0",,
+"168","SINGULAR","327","328","1","0",167,"Verbo Verbal Pretérito Mais Que Perfeito Simples Ind Pessoa-2 Singular"
+"169","PLURAL","329","330","1","0",167,"Verbo Verbal Pretérito Mais Que Perfeito Simples Ind Pessoa-2 Plural"
+"170","PESSOA 3","332","337","0","0",,
+"171","SINGULAR","333","334","1","0",170,"Verbo Verbal Pretérito Mais Que Perfeito Simples Ind Pessoa-3 Singular"
+"172","PLURAL","335","336","1","0",170,"Verbo Verbal Pretérito Mais Que Perfeito Simples Ind Pessoa-3 Plural"
+"173","SUBJUNTIVO","339","358","0","0",,"Verbo Verbal Pretérito Mais Que Perfeito Simples Sub"
+"174","PESSOA 1","340","345","0","0",,
+"175","SINGULAR","341","342","1","0",174,"Verbo Verbal Pretérito Mais Que Perfeito Simples Sub Pessoa-1 Singular"
+"176","PLURAL","343","344","1","0",174,"Verbo Verbal Pretérito Mais Que Perfeito Simples Sub Pessoa-1 Plural"
+"177","PESSOA 2","346","351","0","0",,
+"178","SINGULAR","347","348","1","0",177,"Verbo Verbal Pretérito Mais Que Perfeito Simples Sub Pessoa-2 Singular"
+"179","PLURAL","349","350","1","0",177,"Verbo Verbal Pretérito Mais Que Perfeito Simples Sub Pessoa-2 Plural"
+"180","PESSOA 3","352","357","0","0",,
+"181","SINGULAR","353","354","1","0",181,"Verbo Verbal Pretérito Mais Que Perfeito Simples Sub Pessoa-3 Singular"
+"182","PLURAL","355","356","1","0",181,"Verbo Verbal Pretérito Mais Que Perfeito Simples Sub Pessoa-3 Plural"
+"183","COMPOSTO","360","401","0","0",,
+"184","INDICATIVO","361","380","0","0",,"Verbo Verbal Pretérito Mais Que Perfeito Composto Ind"
+"185","PESSOA 1","362","367","0","0",,
+"186","SINGULAR","363","364","1","0",185,"Verbo Verbal Pretérito Mais Que Perfeito Composto Ind Pessoa-1 Singular"
+"187","PLURAL","365","366","1","0",185,"Verbo Verbal Pretérito Mais Que Perfeito Composto Ind Pessoa-1 Plural"
+"188","PESSOA 2","368","373","0","0",,
+"189","SINGULAR","369","370","1","0",188,"Verbo Verbal Pretérito Mais Que Perfeito Composto Ind Pessoa-2 Singular"
+"190","PLURAL","371","372","1","0",188,"Verbo Verbal Pretérito Mais Que Perfeito Composto Ind Pessoa-2 Plural"
+"191","PESSOA 3","374","379","0","0",,
+"192","SINGULAR","375","376","1","0",191,"Verbo Verbal Pretérito Mais Que Perfeito Composto Ind Pessoa-3 Singular"
+"193","PLURAL","377","378","1","0",191,"Verbo Verbal Pretérito Mais Que Perfeito Composto Ind Pessoa-3 Plural"
+"194","SUBJUNTIVO","381","400","0","0",,"Verbo Verbal Pretérito Mais Que Perfeito Composto Sub"
+"195","PESSOA 1","382","387","0","0",,
+"196","SINGULAR","383","384","1","0",195,"Verbo Verbal Pretérito Mais Que Perfeito Composto Sub Pessoa-1 Singular"
+"197","PLURAL","385","386","1","0",195,"Verbo Verbal Pretérito Mais Que Perfeito Composto Sub Pessoa-1 Plural"
+"198","PESSOA 2","388","393","0","0",,
+"199","SINGULAR","389","390","1","0",198,"Verbo Verbal Pretérito Mais Que Perfeito Composto Sub Pessoa-2 Singular"
+"200","PLURAL","391","392","1","0",198,"Verbo Verbal Pretérito Mais Que Perfeito Composto Sub Pessoa-2 Plural"
+"201","PESSOA 3","394","399","0","0",,
+"202","SINGULAR","395","396","1","0",201,"Verbo Verbal Pretérito Mais Que Perfeito Composto Sub Pessoa-3 Singular"
+"203","PLURAL","397","398","1","0",201,"Verbo Verbal Pretérito Mais Que Perfeito Composto Sub Pessoa-3 Plural"
+"204","FUTURO","404","529","0","1",,"Verbo Verbal Futuro"
+"205","DO PRESENTE","405","446","0","0",,
+"206","SIMPLES DO INDICATIVO","406","425","0","0",,"Verbo Verbal Futuro do Presente Simples Indicativo"
+"207","PESSOA 1","407","412","0","0",,
+"208","SINGULAR","408","409","1","0",207,"Verbo Verbal Futuro do Presente Simples Indicativo Pessoa-1 Singular"
+"209","PLURAL","410","411","1","0",207,"Verbo Verbal Futuro do Presente Simples Indicativo Pessoa-1 Plural"
+"210","PESSOA 2","413","418","0","0",,
+"211","SINGULAR","414","415","1","0",210,"Verbo Verbal Futuro do Presente Simples Indicativo Pessoa-2 Singular"
+"212","PLURAL","416","417","1","0",210,"Verbo Verbal Futuro do Presente Simples Indicativo Pessoa-2 Plural"
+"213","PESSOA 3","419","424","0","0",,
+"214","SINGULAR","420","421","1","0",213,"Verbo Verbal Futuro do Presente Simples Indicativo Pessoa-3 Singular"
+"215","PLURAL","422","423","1","0",213,"Verbo Verbal Futuro do Presente Simples Indicativo Pessoa-3 Plural"
+"216","COMPOSTO DO INDICATIVO","426","445","0","0",,"Verbo Verbal Futuro do Presente Composto do Indicativo"
+"217","PESSOA 1","427","432","0","0",,
+"218","SINGULAR","428","429","1","0",217,"Verbo Verbal Futuro do Presente Composto do Indicativo Pessoa-1 Singular"
+"219","PLURAL","430","431","1","0",217,"Verbo Verbal Futuro do Presente Composto do Indicativo Pessoa-1 Plural"
+"220","PESSOA 2","433","438","0","0",,
+"221","SINGULAR","434","435","1","0",220,"Verbo Verbal Futuro do Presente Composto do Indicativo Pessoa-2 Singular"
+"222","PLURAL","436","437","1","0",220,"Verbo Verbal Futuro do Presente Composto do Indicativo Pessoa-2 Plural"
+"223","PESSOA 3","439","444","0","0",,
+"224","SINGULAR","440","441","1","0",224,"Verbo Verbal Futuro do Presente Composto do Indicativo Pessoa-3 Singular"
+"225","PLURAL","442","443","1","0",224,"Verbo Verbal Futuro do Presente Composto do Indicativo Pessoa-3 Plural"
+"226","DO PRETERITO","447","488","0","0",,
+"227","SIMPLES DO INDICATIVO","448","467","0","0",,"Verbo Verbal Futuro do Pretérito Simples Indicativo"
+"228","PESSOA 1","449","454","0","0",,
+"229","SINGULAR","450","451","1","0",228,"Verbo Verbal Futuro do Pretérito Simples Indicativo Pessoa-1 Singular"
+"230","PLURAL","452","453","1","0",228,"Verbo Verbal Futuro do Pretérito Simples Indicativo Pessoa-1 Plural"
+"231","PESSOA 2","455","459","0","0",,
+"232","SINGULAR","456","457","1","0",231,"Verbo Verbal Futuro do Pretérito Simples Indicativo Pessoa-2 Singular"
+"233","PLURAL","458","459","1","0",231,"Verbo Verbal Futuro do Pretérito Simples Indicativo Pessoa-2 Plural"
+"234","PESSOA 3","461","466","0","0",,
+"235","SINGULAR","462","463","1","0",234,"Verbo Verbal Futuro do Pretérito Simples Indicativo Pessoa-3 Singular"
+"236","PLURAL","464","465","1","0",234,"Verbo Verbal Futuro do Pretérito Simples Indicativo Pessoa-3 Plural"
+"237","COMPOSTO DO INDICATIVO","468","487","0","0",,"Verbo Verbal Futuro do Pretérito Composto do Indicativo"
+"238","PESSOA 1","469","474","0","0",,
+"239","SINGULAR","470","471","1","0",238,"Verbo Verbal Futuro do Pretérito Composto do Indicativo Pessoa-1 Singular"
+"240","PLURAL","472","473","1","0",238,"Verbo Verbal Futuro do Pretérito Composto do Indicativo Pessoa-1 Plural"
+"241","PESSOA 2","475","480","0","0",,
+"242","SINGULAR","476","477","1","0",241,"Verbo Verbal Futuro do Pretérito Composto do Indicativo Pessoa-2 Singular"
+"243","PLURAL","478","479","1","0",241,"Verbo Verbal Futuro do Pretérito Composto do Indicativo Pessoa-2 Plural"
+"244","PESSOA 3","481","486","0","0",,
+"245","SINGULAR","482","483","1","0",244,"Verbo Verbal Futuro do Pretérito Composto do Indicativo Pessoa-3 Singular"
+"246","PLURAL","484","485","1","0",244,"Verbo Verbal Futuro do Pretérito Composto do Indicativo Pessoa-3 Plural"
+"247","SIMPLES DO SUBJUNTIVO","489","508","0","0",,"Verbo Verbal Futuro Simples Subjuntivo"
+"248","PESSOA 1","490","495","0","0",,
+"249","SINGULAR","491","492","1","0",248,"Verbo Verbal Futuro Simples Subjuntivo Pessoa-1 Singular"
+"250","PLURAL","493","494","1","0",248,"Verbo Verbal Futuro Simples Subjuntivo Pessoa-1 Plural"
+"251","PESSOA 2","496","501","0","0",,
+"252","SINGULAR","497","498","1","0",251,"Verbo Verbal Futuro Simples Subjuntivo Pessoa-2 Singular"
+"253","PLURAL","499","500","1","0",251,"Verbo Verbal Futuro Simples Subjuntivo Pessoa-2 Plural"
+"254","PESSOA 3","502","507","0","0",,
+"255","SINGULAR","503","504","1","0",254,"Verbo Verbal Futuro Simples Subjuntivo Pessoa-3 Singular"
+"256","PLURAL","505","506","1","0",254,"Verbo Verbal Futuro Simples Subjuntivo Pessoa-3 Plural"
+"257","COMPOSTO DO SUBJUNTIVO","509","528","0","0",,"Verbo Verbal Futuro Composto do Subjuntivo"
+"258","PESSOA 1","510","515","0","0",,
+"259","SINGULAR","511","512","1","0",258,"Verbo Verbal Futuro Composto do Subjuntivo Pessoa-1 Singular"
+"260","PLURAL","513","514","1","0",258,"Verbo Verbal Futuro Composto do Subjuntivo Pessoa-1 Plural"
+"261","PESSOA 2","516","521","0","0",,
+"262","SINGULAR","517","518","1","0",261,"Verbo Verbal Futuro Composto do Subjuntivo Pessoa-2 Singular"
+"263","PLURAL","519","520","1","0",261,"Verbo Verbal Futuro Composto do Subjuntivo Pessoa-2 Plural"
+"264","PESSOA 3","522","527","0","0",,
+"265","SINGULAR","523","524","1","0",264,"Verbo Verbal Futuro Composto do Subjuntivo Pessoa-3 Singular"
+"266","PLURAL","525","526","1","0",264,"Verbo Verbal Futuro Composto do Subjuntivo Pessoa-3 Plural"
+"267","IMPERATIVO","530","563","0","1",,"Verbo Verbal Imperativo"
+"268","AFIRMATIVO","531","546","0","0",,"Verbo Verbal Imperativo Afirmativo"
+"269","PESSOA 1 PLURAL","532","533","1","0",269,"Verbo Verbal Imperativo Afirmativo Pessoa-1 Plural"
+"270","PESSOA 2","534","539","0","0",,
+"271","SINGULAR","535","536","1","0",270,"Verbo Verbal Imperativo Afirmativo Pessoa-2 Singular"
+"272","PLURAL","537","538","1","0",270,"Verbo Verbal Imperativo Afirmativo Pessoa-2 Plural"
+"273","PESSOA 3","540","545","0","0",,
+"274","SINGULAR","541","542","1","0",273,"Verbo Verbal Imperativo Afirmativo Pessoa-3 Singular"
+"275","PLURAL","543","544","1","0",273,"Verbo Verbal Imperativo Afirmativo Pessoa-3 Plural"
+"276","NEGATIVO","547","562","0","0",,"Verbo Verbal Imperativo Negativo"
+"277","PESSOA 1 PLURAL","548","549","1","0",277,"Verbo Verbal Imperativo Negativo Pessoa-1 Plural"
+"278","PESSOA 2","550","555","0","0",,
+"279","SINGULAR","551","552","1","0",278,"Verbo Verbal Imperativo Negativo Pessoa-2 Singular"
+"280","PLURAL","553","554","1","0",278,"Verbo Verbal Imperativo Negativo Pessoa-2 Plural"
+"281","PESSOA 3","556","561","0","0",,
+"282","SINGULAR","557","558","1","0",281,"Verbo Verbal Imperativo Negativo Pessoa-3 Singular"
+"283","PLURAL","559","560","1","0",281,"Verbo Verbal Imperativo Negativo Pessoa-3 Plural"
+"284","NOMINAL","565","596","0","1",,"Verbo Nominal"
+"285","INFINITIVO","566","589","0","0",,
+"286","PESSOAL","567","586","0","0",,"Verbo Nominal Infinitivo Pessoal"
+"287","PESSOA 1","568","573","0","0",,
+"288","SINGULAR","569","570","1","0",287,"Verbo Nominal Infinitivo Pessoal Pessoa-1 Singular"
+"289","PLURAL","571","572","1","0",287,"Verbo Nominal Infinitivo Pessoal Pessoa-1 Plural"
+"290","PESSOA 2","574","579","0","0",,
+"291","SINGULAR","575","576","1","0",290,"Verbo Nominal Infinitivo Pessoal Pessoa-2 Singular"
+"292","PLURAL","577","578","1","0",290,"Verbo Nominal Infinitivo Pessoal Pessoa-2 Plural"
+"293","PESSOA 3","580","585","0","0",,
+"294","SINGULAR","581","582","1","0",294,"Verbo Nominal Infinitivo Pessoal Pessoa-3 Singular"
+"295","PLURAL","583","584","1","0",294,"Verbo Nominal Infinitivo Pessoal Pessoa-3 Plural"
+"296","IMPESSOAL","587","588","1","1",296,"Verbo Nominal Infinitivo Impessoal"
+"297","PARTICIPIO","590","591","1","1",297,"Verbo Nominal Particípio"
+"298","GERUNDIO","592","593","1","1",298,"Verbo Nominal Gerúndio"
+"299","GERUNDIO COMPOSTO","594","595","1","1",298,"Verbo Nominal Gerúndio Composto"
+"300","PREPOSICOES","598","613","0","2",,"Preposição"
+"301","LUGAR","599","600","1","0","300",
+"302","MODO","601","602","1","0","300",
+"303","TEMPO","603","604","1","0","300",
+"304","DISTANCIA","605","606","1","0","300",
+"305","CAUSA","607","608","1","0","300",
+"306","INSTRUMENTO","609","610","1","0","300",
+"307","FINALIDADE","611","612","1","0","300",
+"308","PRONOME","614","697","1","0","300",
+"309","PESSOAL","615","656","1","0","300",
+"310","CASO RETO","616","635","0","1",,"Pronome Pessoal Caso Reto"
+"311","PESSOA 1","617","622","0","0",,
+"312","SINGULAR","618","619","1","0","311",
+"313","PLURAL","620","621","1","0","311",
+"314","PESSOA 2","623","628","0","0",,
+"315","SINGULAR","624","625","1","0","314",
+"316","PLURAL","626","627","1","0","314",
+"317","PESSOA 3","629","634","0","0",,
+"318","SINGULAR","630","631","1","0","317",
+"319","PLURAL","632","633","1","0","317",
+"320","CASO OBLIQUO","636","655","0","1",,"Pronome Pessoal Caso Oblíquo"
+"321","PESSOA 1","637","642","0","0",,
+"322","SINGULAR","638","639","1","0","321",
+"323","PLURAL","640","641","1","0","321",
+"324","PESSOA 2","643","648","0","0",,
+"325","SINGULAR","644","645","1","0","324",
+"326","PLURAL","646","647","1","0","324",
+"327","PESSOA 3","649","654","0","0",,
+"328","SINGULAR","650","651","1","0","327",
+"329","PLURAL","652","653","1","0","327",
+"330","POSSESSIVO","657","676","0","1",,"Pronome Pessoal Possessivo"
+"331","PESSOA 1","658","663","0","0",,
+"332","SINGULAR","659","660","1","0","331",
+"333","PLURAL","661","662","1","0","331",
+"334","PESSOA 2","664","669","0","0",,
+"335","SINGULAR","665","666","1","0","334",
+"336","PLURAL","667","668","1","0","334",
+"337","PESSOA 3","670","675","0","0",,
+"338","SINGULAR","671","672","1","0","338",
+"339","PLURAL","673","674","1","0","338",
+"340","DEMONSTRATIVO","677","690","0","1",,"Pronome Pessoal Demonstrativo"
+"341","MASCULINO","678","683","0","0",,
+"342","SINGULAR","679","680","1","0","341",
+"343","PLURAL","681","682","1","0","341",
+"344","FEMININO","684","689","0","0",,
+"345","SINGULAR","685","686","1","0","344",
+"346","PLURAL","687","688","1","0","344",
+"347","INTERROGATIVO","691","692","0","1",347,"Pronome Interrogativo"
+"348","RELATIVO","693","694","0","1",348,"Pronome Relativo"
+"349","INDEFINIDO","695","696","0","1",349,"Pronome Indefinido"
+"350","CONJUNCAO","698","733","0","0",,
+"351","COORDENATIVA","699","710","0","2",,"Conjunção Coordenativa"
+"352","ADITIVA","700","701","1","0","351",
+"353","ADVERSATIVA","702","703","1","0","351",
+"354","ALTERNATIVA","704","705","1","0","351",
+"355","CONCLUSIVA","706","707","1","0","351",
+"356","EXPLICATIVA","708","709","1","0","351",
+"357","SUBORDINATIVA","711","732","0","2",,"Conjunção Subordinativa"
+"358","CAUSAL","712","713","1","0","357",
+"359","CONCESSIVA","714","715","1","0","357",
+"360","CONDICIONAL","716","717","1","0","357",
+"361","CONFORMATIVA","718","719","1","0","357",
+"362","FINAL","720","721","1","0","357",
+"363","PROPORCIONAL","722","723","1","0","357",
+"364","TEMPORAL","724","725","1","0","357",
+"365","COMPARATIVA","726","727","1","0","357",
+"366","CONSECUTIVA","728","729","1","0","357",
+"367","INTEGRANTE","730","731","1","0","357",
+"368","PONTUACAO","734","735","0","1",,"Pontuação"
+"369","ARTIGO","736","765","0","0",,
+"370","DEFINIDO","737","750","0","1",,"Artigo Definido"
+"371","MASCULINO","738","743","0","0",,
+"372","SINGULAR","739","740","1","0","371",
+"373","PLURAL","741","742","1","0","371",
+"374","FEMININO","744","749","0","0",,
+"375","SINGULAR","745","746","1","0","374",
+"376","PLURAL","747","748","1","0","374",
+"377","INDEFINIDO","751","764","0","1",,"Artigo Indefinido"
+"378","MASCULINO","752","757","0","0",,
+"379","SINGULAR","753","754","1","0","378",
+"380","PLURAL","755","756","1","0","378",
+"381","FEMININO","758","763","0","0",,
+"382","SINGULAR","759","760","1","0","381",
+"383","PLURAL","761","762","1","0","381",

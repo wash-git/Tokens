@@ -1,0 +1,29 @@
+# --------------------------------------------------------------------------------------------------------------------------+
+#                                                                                                                           |
+#                                       TOKENS: MÓDULO DE CLASSES DE TOKENS                                                 |
+#                                                                                                                           |
+# --------------------------------------------------------------------------------------------------------------------------+
+#									Parte 1: configurações da solução
+TOPLOG="../to_logs"                     # pasta de logs deste módulo de tokens
+TOPINFO="../to_info"                    # pasta de arquivos com informações para popular a base dados deste módulo
+TOPJS="../to_js"                        # pasta para arquivos javascript deste módulo de tokens
+TOPPHP="../to_php"                      # pasta de arquivos PHP deste módulo de tokens
+TOPADMIN="../to_admin"                  # pasta de administração do script PHP deste módulo de tokens
+TOPCSS="../to_css"                      # pasta de CSS deste módulo de tokens
+TOPIMG="../to_images"                   # pasta de figuras deste módulo de tokens
+#
+TOACONFSUPER="super_config.cnf"                   # arquivo de configuração da Superinterface
+TOACONFPHP="token_config_php.cnf"                 # arquivo que contém as informações de configuração para scripts PHP do módulo
+TOACRIATABELAS="token_criaTabelas.sql"            # arquivo SQL com instruções de criação das tabelas
+TOALOG="token_logshell.log"                       # arquivo de logs
+TOAARVORE="token_nestedClasses.csv"               # arquivo CSV com as informações da árvore hierárquica
+TOACONFPHP="token_config_php.cnf"                 # arquivo que contém as informações de configuração para scripts PHP do módulo
+#
+TOTABCLASSES="to_nested_classes"                  # nome da tabela de classes
+TOTABTOKENS="to_tokens"                              # nome da tabela de tokens
+#
+TOCHMOD500="500"                                  # permissão para os arquivos shell
+TOCHMOD750="750"                                  # permissão padrão para pastas
+TOCHMOD640="640"                                  # permissão padrão para arquivos
+TOCHMOD600="600"                                  # permissão para arquivo de configuração desta aplicação
+TOCHMOD400="400"
