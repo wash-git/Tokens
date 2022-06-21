@@ -24,7 +24,7 @@
 */
 "use strict";	// ECMAScript5
 //	definição da variável global
-var	token_dados = {
+var	tokenDados = {
 	id_pagina : {
 		"CENTRAL":"main",
 		"LATERAL":"secondary",
@@ -40,16 +40,19 @@ var	token_dados = {
 	arq_html :  {
 		"HOME" : "to_help/token_home.html",
 		"HATOKENS" : "to_help/token_atokens.html",
-		"HGCLASS"  : "to_help/token_grafo.html",
+		"HLTOKENS"  :"to_help/token_ltokens.html",
 		"HVERBET"  : "to_help/token_verbetes.html",
-		"HSTATIS"  : "to_help/token_classificar.html",
+		"HSTATUS"  : "to_help/token_status.html",
 		"HAPRESE"  : "to_help/token_apresentacao.html"
 	},
 	classes : [],
+	classesRequisited : [false],	// se lista tokenDados.classes já está disponível
 	classes_pai : [],				// lista das classes PAI: [desc,id na base dados]
+	num_subclasses : 0,				// número total de subclasses passíveis de classificar tokens
 	classe_paiselected : [false,,],	// [Selecionou?, ID de entrada na base de dados, descrição]
 	subclasse_selected : [false,,], // [Selecionou?, ID de ebtrada na base de dados, descrição]
-	subclasses : []
+	subclasses : [],
+	tokens : []
 };
     /*
 										--- FRONT END DA APLICAÇÃO ---
@@ -66,41 +69,69 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		MENS_05 = "Sub-classes possíveis",
 		MENS_06 = "Formulário-2: Sub-Classe",
 		MENS_07 = "Escolha a Sub-Classe",
-		MENS_08 = "Formulário-3: Tokens";
+		MENS_08 = "Formulário-3: Tokens",
+		MENS_09 = "Tokens na base de dados",
+		MENS_10 = "Estatísticas";
 	const MENS_ER01 = "Erro-01: parâmetro 'local' inexistente",
 		MENS_ER02 = "Erro-02: problemas na comunicação JSON";
 	//
 	switch(p_acao) {
         case    'TRATAR_ESCOLHA':
-			/*vsis_dados.jsonFuncoes.carregarIndicador(); */
-			//console.log("vamos tratar");
 			return;
         case    'INICIAR':
-			toRequisitarHtml(token_dados.arq_html.HOME, 'LATERAL');
-			toRequisitarHtml(token_dados.arq_html.HAPRESE, 'CENTRAL');
+			toRequisitarHtml(tokenDados.arq_html.HOME, 'LATERAL');
+			toRequisitarHtml(tokenDados.arq_html.HAPRESE, 'CENTRAL');
+			toRequisitarJson('CENTRAL','HOME');
 			break;
 		case	'HOME':
-			toRequisitarHtml(token_dados.arq_html.HOME, 'LATERAL');
-			toRequisitarHtml(token_dados.arq_html.HAPRESE, 'CENTRAL');
+			toRequisitarHtml(tokenDados.arq_html.HOME, 'LATERAL');
+			toRequisitarHtml(tokenDados.arq_html.HAPRESE, 'CENTRAL');
+			if ( ! tokenDados.classesRequisited ) {
+				toRequisitarJson('CENTRAL','HOME');
+			}
 			break;	
-		case	'HATOKENS':	// ação: tokens
-			toRequisitarHtml(token_dados.arq_html[p_acao],'LATERAL');
-			toRequisitarJson('CENTRAL');
+		case	'HATOKENS':	// ação: criar tokens
+			//toRequisitarHtml(tokenDados.arq_html[p_acao],'LATERAL');
+			toRequisitarHtml(tokenDados.arq_html.HATOKENS,'LATERAL');
+			if ( ! tokenDados.classesRequisited ) {
+				toRequisitarJson('CENTRAL','HATOKENS');
+			} else {
+				toMontarForm1();
+			}
 			break;
-		case    'HSTATIST':
-			toRequisitarHtml(token_dados.arq_html[p_acao],'LATERAL');
+		case	'HLTOKENS':	// ação: listar tokens
+			toRequisitarHtml(tokenDados.arq_html.HLTOKENS,'LATERAL');
+			toRequisitarTokens('CENTRAL','HLTOKENS');
 			break;
-		case    'HGCLASS':
-			toRequisitarHtml(token_dados.arq_html[p_acao],'LATERAL');
+		case    'HSTATUS':
+			toRequisitarHtml(tokenDados.arq_html.HSTATUS,'LATERAL');
+			toMostrarStatus();
 			break;
 		case    'HVERBET':
-			toRequisitarHtml(token_dados.arq_html[p_acao],'LATERAL');
+			toRequisitarHtml(tokenDados.arq_html.HVERBET,'LATERAL');
 			break;
 		case	'RESPOSTA_HTML':
 			toPublicarTexto(p_param1,p_param2);			
 			break;
 		case	'RESPOSTA_JSON':
-			toMontarForm1();			
+			if (p_param1 == 'HATOKENS'){
+				tokenDados.classes=p_param2;
+				tokenDados.classesRequisited=true;
+				toMontarForm1();
+			} else if (p_param1 == 'HOME') {
+				toMontarDados(p_param2);				// montar dados essenciais nesta fase de iniciação
+				//tokenDados.classes=p_param2;
+				//tokenDados.classesRequisited=true;
+			} else if (p_param1 == 'HLTOKENS') {
+				if ( ! tokenDados.classesRequisited ) {
+					alert ("Ooooops.  Classes ainda não disponíveis");
+				} else {
+					tokenDados.tokens=p_param2;
+					toMontarListagemTokens();
+				}
+			} else {
+				alert("Ooooopppsss");
+			}
 			break;
 		case	'RESPOSTA_TOKEN':
 			//										resposta do servido após usuário solicitar inserção de token
@@ -167,7 +198,8 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	*                            FUNÇÃO REQUISITAR DADOS JSON NO SERVIDOR                       *
 	** *************************************************************************************** */
 	//
-	function toRequisitarJson (local) {
+	function toRequisitarJson (local,funcao) {
+		var dados,resposta;
 		var requisicaoAjax3 = toIniciarAjax(); 
 		if(requisicaoAjax3) {
 			requisicaoAjax3.onreadystatechange = function () {	// ação disparadora de evento, originada no servidor
@@ -175,12 +207,9 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 															// disparada por uma propriedade do objeto XMLHttpRequest
 				if(requisicaoAjax3.readyState == 4) {
 					if(requisicaoAjax3.status == 200 || requisicaoAjax3.status == 304) {	
-						//console.log("chegou resposta= ",requisicaoAjax3.getResponseHeader("Content-Type"));
-						//console.log("objeto= ",requisicaoAjax3);
 						if (requisicaoAjax3.getResponseHeader("Content-Type") == "application/json"){
-							token_dados.classes=JSON.parse(requisicaoAjax3.responseText);   // converter o string JSON em um objeto Javascript
-							//console.log("token_dados.classes= ", token_dados.classes);
-							toFrontEnd('RESPOSTA_JSON');	// callback
+							resposta=JSON.parse(requisicaoAjax3.responseText);   // converter o string JSON em um objeto Javascript
+							toFrontEnd('RESPOSTA_JSON',funcao,resposta);	// **** callback ****
 						}
 					}
 				}
@@ -192,11 +221,92 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			requisicaoAjax3.ontimeout = function() {toFrontEnd('TIMEOUT',"tempo excedido");};
 
 			requisicaoAjax3.setRequestHeader('Content-Type','application/x-www-form-urlencoded;charset=UTF-8');
-			var dados='acao=arvore';
+			switch(funcao){
+				case 'HATOKENS':
+				case 'HOME':
+					dados='acao=arvore';
+					break;
+				case 'HLTOKENS':
+					dados='acao=listarTokens';
+					break;
+				default:
+					alert("OOOooooppppssss 3");
+					return;
+			}
 			requisicaoAjax3.send(dados);						// send: inicia a requisição definida pelo método open anterior
 															// será enviado os dados da requisição ao servidor (neste caso é null pois não temos dados a enviar)
 		}
 	}	// fim função toRequisitarJson
+	//
+	/* *************************************************************************************** **
+	*                                   FUNÇÃO MOSTRAR STATUS                                   *
+	** *************************************************************************************** */
+	//
+	function toMostrarStatus() {
+		var array4=[];
+		toPublicarTexto("",'CENTRAL');                          // limpa toda tela 'CENTRAL'
+		array4="<table id=\"tabletokens\"><tr><th>Indicador</th><th>Valor</th></tr>";
+		array4+="<tr><td>Classes</td><td>"+tokenDados.classes[0].length+"</td></tr>";
+		array4+="<tr><td>Classes PAI</td><td>"+tokenDados.classes_pai.length+"</td></tr>";
+		array4+="<tr><td>Subclasses (como opção de classificação)</td><td>"+tokenDados.num_subclasses+"</td></tr>";
+		array4+="</table>";
+		toPublicarTexto("<h2>"+MENS_10+"</h2>"+array4,'CENTRAL');							// imprime os tokens existentes
+
+	}
+	//
+	/* *************************************************************************************** **
+	*                                   FUNÇÃO REQUISITAR TOKENS                                    *
+	** *************************************************************************************** */
+	//
+	function toRequisitarTokens(local,funcao) {
+		toPublicarTexto("",'CENTRAL');							// limpa toda tela 'CENTRAL'
+		toRequisitarJson (local,funcao);
+	}
+	//
+	/* *************************************************************************************** **
+	*                            FUNÇÃO MONTAR DADOS INICIAIS                                   *
+	** *************************************************************************************** */
+	//
+	function toMontarDados(dados) {
+		var i;
+		tokenDados.classes=dados;							// guarda a informação das classes de tokens existentes
+		tokenDados.classesRequisited=true;					// classes de tokens estão disponíveis para utilização
+		//													Selecionar as classes PAI
+		for (i=0;i<tokenDados.classes[0].length;i++) {
+			if (tokenDados.classes[0][i].tela == 1) {
+				let aa = {
+					"desc": tokenDados.classes[0][i].descricao,
+					"ident":tokenDados.classes[0][i].id_chave_classe
+				}
+				tokenDados.classes_pai.push(aa);
+			}
+		} // for
+		for ( let i in tokenDados.classes[0]){				// calcula o número de subclasses passíveis de classificar um token
+			if ( tokenDados.classes[0][i].opcao != 0 ) {
+				tokenDados.num_subclasses++;
+			}
+		} // for
+
+	} // fim da função toMontarDados()
+	//
+	/* *************************************************************************************** **
+	*                            FUNÇÃO MONTAR LISTAGEM DE TOKENS                               *
+	** *************************************************************************************** */
+	//
+	function toMontarListagemTokens(){
+		var array2=[],array3=[],array4;
+		for (let j in tokenDados.tokens[0]){
+			array2[j]=tokenDados.tokens[0][j].token_name;
+		}
+		array4="<table id=\"tabletokens\"><tr><th>Token</th><th>Descrição</th></tr>";
+		for (let j in tokenDados.tokens[0]){
+		array4+="<tr><td>"+tokenDados.tokens[0][j].token_name+"</td><td>"+tokenDados.classes[0][Number(tokenDados.tokens[0][j].id_classe)-1].descricao+"</td></tr>";
+		//array4+="<tr><td>"+tokenDados.tokens[0][j].token_name+"</td><td>"+tokenDados.tokens[0][j].id_classe+"</td></tr>";
+		}
+		array4+="</table>";
+		array3=array2.join('<br />');
+		toPublicarTexto("<h2>"+MENS_09+"</h2>"+array4,'CENTRAL');							// imprime os tokens existentes
+	}
 	//
 	/* *************************************************************************************** **
 	*                            FUNÇÃO MONTAR FORMULÁRIO 1: ESCOLHA CLASSE PAI                 *
@@ -205,35 +315,22 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	function toMontarForm1(requisicaoAjax3,local) {
 		var i=0, j=0, array2=[], array3=[];
 		//													limpar referência a qualquer seleção de classe anterior
-		token_dados.classes_pai=[];
-		token_dados.classe_paiselected=[];
-		token_dados.subclasse_selected=[];
-		token_dados.subclasses=[];
+		tokenDados.classe_paiselected=[];
+		tokenDados.subclasse_selected=[];
+		tokenDados.subclasses=[];
 		//													Selecionar as classes PAI
-		for (i=0;i<token_dados.classes[0].length;i++) {
-			if (token_dados.classes[0][i].tela == 1) {
-				let aa = {
-					"desc": token_dados.classes[0][i].descricao,
-					"ident":token_dados.classes[0][i].id_chave_classe
-				}
-				token_dados.classes_pai.push(aa);
-			}
-		}
-		//console.log("token_dados.classes_pai= ",token_dados.classes_pai);
 		//													Divide a tela central em duas partes: LADO-A e LADO-B
 		toPublicarTexto("",'CENTRAL');							// limpa toda tela 'CENTRAL'
 		var aa = document.createElement ("div");			// prepara criação um novo elemento div 
-		document.getElementById(token_dados.id_pagina['CENTRAL']).appendChild (aa);	// insere o novo div na página
-		aa.setAttribute('id',token_dados.id_pagina['LADO_A']);						// definir o atributo do novo elemento div: LADO_A
+		document.getElementById(tokenDados.id_pagina['CENTRAL']).appendChild (aa);	// insere o novo div na página
+		aa.setAttribute('id',tokenDados.id_pagina['LADO_A']);						// definir o atributo do novo elemento div: LADO_A
 		aa = document.createElement ("div");									// cria main um novo elemento div
-		document.getElementById(token_dados.id_pagina['CENTRAL']).appendChild (aa);	// insere o novo div na página
-		aa.setAttribute('id',token_dados.id_pagina['LADO_B']);						// definir o atributo do elemento div criado
+		document.getElementById(tokenDados.id_pagina['CENTRAL']).appendChild (aa);	// insere o novo div na página
+		aa.setAttribute('id',tokenDados.id_pagina['LADO_B']);						// definir o atributo do elemento div criado
 		//
-		for (let j in token_dados.classes_pai){
-			//console.log(token_dados.classes_pai[j].desc);
-			array2[j]=token_dados.classes_pai[j].desc;
+		for (let j in tokenDados.classes_pai){
+			array2[j]=tokenDados.classes_pai[j].desc;
 		}
-		//console.log("array2= ",array2);
 		array3=array2.join('<br />');												// formata lista de classes PAI para enviar ao LADO-B
 		toPublicarTexto("<h2>"+MENS_01+"</h2>"+array3,'LADO_B');							// imprime no LADO-B as classes PAI existentes
 		//
@@ -241,8 +338,8 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		toPublicarTexto("<h2>"+MENS_04+"</h2>",'LADO_A');								// msg para escolher a classe pai
 		var vele = document.createElement("div");									// cria um novo elemento div dentro de LADO_A
 		vele.setAttribute("class","selclasse");
-		vele.setAttribute("id",token_dados.id_pagina['FORM1']);
-		document.getElementById(token_dados.id_pagina['LADO_A']).appendChild(vele);
+		vele.setAttribute("id",tokenDados.id_pagina['FORM1']);
+		document.getElementById(tokenDados.id_pagina['LADO_A']).appendChild(vele);
 		var vform="<form action=\"#\" method=\"post\" id=\"demoForm\" class=\"demoForm\">";	// cria o formulário
 		vform+="<fieldset id=\"field01\"><legend>"+MENS_03+"</legend><p>";
 		vform+="<select id=\"optclasse\" name=\"scripts\">";
@@ -261,34 +358,30 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		//													tratador para o botão de escolha da classe PAI
 		document.getElementById('botaotexto').onclick = function () {	
 			el.value = sel.options[sel.selectedIndex].text;	// acessar a propriedade text da opção selecionada
-			token_dados.classe_paiselected=[true,token_dados.classes_pai[sel.value].ident-1,sel.options[sel.selectedIndex].text]; // guarda a escolha
-			//console.log("classe_paiselected= ", token_dados.classe_paiselected);
-			//toPublicarTexto ("<h2>"+MENS_02+token_dados.classe_paiselected[2]+"</h2>",'LADO_A');
+			tokenDados.classe_paiselected=[true,tokenDados.classes_pai[sel.value].ident-1,sel.options[sel.selectedIndex].text]; // guarda a escolha
 			//												limpar divs inferiores
-			if ( document.getElementById(token_dados.id_pagina['FORM3']) != null )
-			document.getElementById(token_dados.id_pagina['FORM3']).innerHTML = "";
-			if ( document.getElementById(token_dados.id_pagina['SUBCLA']) != null )
-			document.getElementById(token_dados.id_pagina['SUBCLA']).innerHTML = "";
+			if ( document.getElementById(tokenDados.id_pagina['FORM3']) != null )
+			document.getElementById(tokenDados.id_pagina['FORM3']).innerHTML = "";
+			if ( document.getElementById(tokenDados.id_pagina['SUBCLA']) != null )
+			document.getElementById(tokenDados.id_pagina['SUBCLA']).innerHTML = "";
 			//																				identificar as subclasses
 			j=0;
-			var a1=Number(token_dados.classes[0][token_dados.classe_paiselected[1]].lft);
-			var a2=Number(token_dados.classes[0][token_dados.classe_paiselected[1]].rgt);
-			token_dados.subclasses=[],j=0;
-			for (let i in token_dados.classes[0]){
-				//console.log("token_dados.classes[0][i].left= ",i,"  ", token_dados.classes[0][i].left);
+			var a1=Number(tokenDados.classes[0][tokenDados.classe_paiselected[1]].lft);
+			var a2=Number(tokenDados.classes[0][tokenDados.classe_paiselected[1]].rgt);
+			tokenDados.subclasses=[],j=0;
+			for (let i in tokenDados.classes[0]){
 				if (
-					(token_dados.classes[0][i].lft >= a1) && 
-					(token_dados.classes[0][i].lft <= a2) && 
-					(token_dados.classes[0][i].opcao == 1)
+					(tokenDados.classes[0][i].lft >= a1) && 
+					(tokenDados.classes[0][i].lft <= a2) && 
+					(tokenDados.classes[0][i].opcao == 1)
 				){
-					token_dados.subclasses[j]=[i,token_dados.classes[0][i].descricao];
+					tokenDados.subclasses[j]=[i,tokenDados.classes[0][i].descricao];
 					j++;
 				} // if
 			} // for
-			//console.log("token_dados.subclasses= ",token_dados.subclasses);
 			array2=[],array3=[];
-			for (let j in token_dados.subclasses){
-				array2[j]=token_dados.subclasses[j][1];
+			for (let j in tokenDados.subclasses){
+				array2[j]=tokenDados.subclasses[j][1];
 			}
 			array3=array2.join('<br />');
 			toPublicarTexto("",'LADO_B');							// limpa  'LADO_B'
@@ -305,21 +398,19 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	function toMontarForm2() {
 		var vele, vform, array2=[];
 		//																			limpar qualquer referência anterior a uma subclasse selecionada
-		token_dados.subclasse_selected=[];
+		tokenDados.subclasse_selected=[];
 		vele = document.createElement ("div");										// prepara criação um novo elemento div 
-		vele.setAttribute('id',token_dados.id_pagina['SUBCLA']);						// cria um novo elemento div dentro de LADO_A
-		document.getElementById(token_dados.id_pagina['LADO_A']).appendChild (vele); // insere o novo div na página
+		vele.setAttribute('id',tokenDados.id_pagina['SUBCLA']);						// cria um novo elemento div dentro de LADO_A
+		document.getElementById(tokenDados.id_pagina['LADO_A']).appendChild (vele); // insere o novo div na página
 		toPublicarTexto("<h2>"+MENS_06+"</h2>",'SUBCLA');									// msg para escolher a Subclasse
 		vele = document.createElement ("div");										// prepara criação um novo elemento div 
 		vele.setAttribute("class","selclasse");
-		vele.setAttribute('id',token_dados.id_pagina['FORM2']);						// cria um novo elemento div dentro de LADO_A
-		document.getElementById(token_dados.id_pagina['SUBCLA']).appendChild (vele); // insere o novo div na página
+		vele.setAttribute('id',tokenDados.id_pagina['FORM2']);						// cria um novo elemento div dentro de LADO_A
+		document.getElementById(tokenDados.id_pagina['SUBCLA']).appendChild (vele); // insere o novo div na página
 		//														preparar array2
-		for (let j in token_dados.subclasses){
-			//console.log(token_dados.classes_pai[j].desc);
-			array2[j]=token_dados.subclasses[j][1];
+		for (let j in tokenDados.subclasses){
+			array2[j]=tokenDados.subclasses[j][1];
 		}
-		//console.log("array2= ",array2);
 		//
 		//														Criar o formulário para a sub-classe
 		vform="<form action=\"#\" method=\"post\" id=\"demoForm\" class=\"demoForm\">";
@@ -340,7 +431,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		//														tratador para o botão de escolha da sub-classe
 		document.getElementById('botaotexto2').onclick = function () {	
 			el.value = sel.options[sel.selectedIndex].text;	// acessar a propriedade text da opção selecionada
-			token_dados.subclasse_selected=[true,Number(token_dados.subclasses[sel.value][0]),sel.options[sel.selectedIndex].text]; // guarda a escolha
+			tokenDados.subclasse_selected=[true,Number(tokenDados.subclasses[sel.value][0]),sel.options[sel.selectedIndex].text]; // guarda a escolha
 			toMontarForm3();
 		}
 	}	// fim função toMontarForm2()
@@ -352,17 +443,15 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	//
 	function toMontarForm3() {
 		var vele, vform;
-		console.log("iniciar montagem do formulário 3");
-
 			//													Preparar espaço para titulo da caixa de edição do token
 			vele = document.createElement ("div");										// prepara criação um novo elemento div 
-			vele.setAttribute('id',token_dados.id_pagina['FORM3']);						// cria um novo elemento div dentro de LADO_A
-			document.getElementById(token_dados.id_pagina['LADO_A']).appendChild (vele); // insere o novo div na página
+			vele.setAttribute('id',tokenDados.id_pagina['FORM3']);						// cria um novo elemento div dentro de LADO_A
+			document.getElementById(tokenDados.id_pagina['LADO_A']).appendChild (vele); // insere o novo div na página
 			toPublicarTexto("<h2>"+MENS_08+"</h2>",'FORM3');									// msg para escolher a Subclasse
 			vele = document.createElement ("div");										// prepara criação um novo elemento div 
 			vele.setAttribute("class","selclasse");
-			vele.setAttribute('id',token_dados.id_pagina['TOKEN']);						// cria um novo elemento div dentro de LADO_A
-			document.getElementById(token_dados.id_pagina['FORM3']).appendChild (vele); // insere o novo div na página
+			vele.setAttribute('id',tokenDados.id_pagina['TOKEN']);						// cria um novo elemento div dentro de LADO_A
+			document.getElementById(tokenDados.id_pagina['FORM3']).appendChild (vele); // insere o novo div na página
 			//
 			//													Prepara o formulário para fornecimento do token
 			vform="<form action=\"#\" method=\"post\" id=\"formtoken\">";
@@ -380,10 +469,8 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			var elresp3 = document.getElementById('optindice3');
 			//													tratador para o botão de escolha da classe PAI
 			document.getElementById('botaotokenxx').onclick = function () {
-				//console.log("sel3= ",sel3.value);
-				//console.log("elresp3= ",elresp3.value);
 				// enviar token para o servidor
-				toEnviarDado("novotoken",sel3.value,token_dados.subclasse_selected[1]+1);	// envia o id da sub-classe
+				toEnviarDado("novotoken",sel3.value,tokenDados.subclasse_selected[1]+1);	// envia o id da sub-classe
 																							// adicionamos 1 porque o SGBD inicia os registros em 1 (em vez de 0)
 			}
 
@@ -407,7 +494,6 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	//
 	function toEnviarDado(param1,param2,param3){
 		// enviar dado ao servidor
-		//console.log("enviando dado ao servidor= ",param1,"    ",param2);
 		var objetoAjax = toIniciarAjax();
 		if(objetoAjax) {
 			objetoAjax.onreadystatechange = function () {	// ação disparadora de evento, originada no servidor
@@ -424,7 +510,6 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			objetoAjax.open("POST","to_php/token_processa.php",true);
 			objetoAjax.setRequestHeader('Content-Type','application/x-www-form-urlencoded;charset=UTF-8');
 			var dados='acao='+param1+'&token='+param2+'&id='+param3;
-			//console.log("dados= ",dados);
 			objetoAjax.send(dados);
 		}
 	} // fim função toEnviarDado()
@@ -472,7 +557,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	** *************************************************************************************** */
 	//
 	function toPublicarTexto(texto,local) {
-		var vInsereAqui = document.getElementById(token_dados.id_pagina[local]);
+		var vInsereAqui = document.getElementById(tokenDados.id_pagina[local]);
         vInsereAqui.innerHTML = texto;	
 	}	// fim função toPublicarTexto
 	//

@@ -187,10 +187,39 @@ display: block;
   	max-width:80%;
     border-radius:8px;
 }
+#tabletokens {
+	font-family: Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 80%;
+	margin-top: 3em;
+	margin-left: auto;
+	margin-right: auto;
+}
+#tabletokens td {
+	border: 1px solid #ddd;
+	padding: 0.5em;
+}
+#tabletokens tr:hover {background-color: #ddd;}
+/* #tabletokens tr:nth-child(even) {background-color: #f2f2f2;} */
+
+#tabletokens th {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
 
 #optindice,#optindice2,#optindice3 {
 	background-color: yellow;
 }
+/*
+#ladoA th,td {
+	padding: 15px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+*/
 /*********************/
 /* FOOTER */
 /*********************/
