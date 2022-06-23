@@ -347,7 +347,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			vform+="<option value=\""+j+"\">"+array2[j]+"</option>";
 		}
 		vform+="</select>";
-		vform+="<input type=\"text\" size=\"40\" name=\"display\" id=\"optindice\" readonly /></p>";
+		vform+="<input type=\"text\" size=\"35\" name=\"display\" id=\"optindice\" readonly /></p>";
 		//vform+="<p><input type=\"button\" id=\"botaoindice\" value=\"Índice Selecionado\" />";
 		vform+="<input type=\"button\" id=\"botaotexto\" value=\"Selecionar\" />";
 		vform+="</fieldset></form>";
@@ -414,13 +414,14 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		//
 		//														Criar o formulário para a sub-classe
 		vform="<form action=\"#\" method=\"post\" id=\"demoForm\" class=\"demoForm\">";
-		vform+="<fieldset id=\"field02\" class=\"formclass\"><legend>"+MENS_07+"</legend><p>";
+		//vform+="<fieldset id=\"field02\" class=\"formclass\"><legend>"+MENS_07+"</legend><p>";
+		vform+="<fieldset id=\"field02\" ><legend>"+MENS_07+"</legend><p>";
 		vform+="<select id=\"optclasse2\" name=\"scripts\">";
 		for (let j in array2){
 			vform+="<option value=\""+j+"\">"+array2[j]+"</option>";
 		}
 		vform+="</select>";
-		vform+="<input type=\"text\" size=\"40\" name=\"display\" id=\"optindice2\" readonly /></p>";
+		vform+="<input type=\"text\" size=\"35\" name=\"display\" id=\"optindice2\" readonly /></p>";
 		//vform+="<p><input type=\"button\" id=\"botaoindice\" value=\"Índice Selecionado\" />";
 		vform+="<input type=\"button\" id=\"botaotexto2\" value=\"Selecionar\" />";
 		vform+="</fieldset></form>";
@@ -457,10 +458,10 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			vform="<form action=\"#\" method=\"post\" id=\"formtoken\">";
 			vform+="<fieldset id=\"field03\">";
 			vform+="<legend>Digite o token:</legend>";
-			vform+="<label for=\"tokenxx\">Token:</label>";
+			//vform+="<label for=\"tokenxx\">Token:</label>";
 			vform+="<input type=\"text\" id=\"tokenxx\" name=\"tokenxx\" placeholder=\"digite o token\">";
-			vform+="<label for=\"tokenaa\"></label>";
-			vform+="<input type=\"text\" size=\"30\" name=\"display2\" id=\"optindice3\" placeholder=\"Resultado\" readonly /></p>";
+			//vform+="<label for=\"tokenaa\"></label>";
+			vform+="<input type=\"text\" size=\"35\" name=\"display2\" id=\"optindice3\" placeholder=\"Resultado\" readonly /></p>";
 			vform+="<input type=\"button\" id=\"botaotokenxx\" value=\"Enviar\" />";
 			vform+="</fieldset></form>";
 			toPublicarTexto(vform,'TOKEN');
