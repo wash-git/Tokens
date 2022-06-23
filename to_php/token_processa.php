@@ -19,8 +19,28 @@ switch ($acao) {
 		// solicitação da árvore hierárquica de classes
 		pedidoArvoreClasse($username,$pass,$banco);
 		break;
+	case 'listarTokens':
+		pedidoListarTokens($username,$pass,$banco);
+		break;
 	default:
 		break;
+}
+//
+function	pedidoListarTokens($username,$pass,$banco) {
+	// solicitado informar quais tokens existem na base
+	$link = mysqli_connect("localhost",$username, $pass, $banco);
+	$sql = "SELECT * FROM  to_tokens";
+	$result=mysqli_query($link, $sql);
+	mysqli_close($link);
+	if (! mysqli_num_rows($result) > 0) {
+		echo "Não encontrou resultados";
+		return;
+	}
+	while ($row = mysqli_fetch_assoc($result)) {
+    	$output[] = $row;
+    }
+	header("Content-Type: application/json", true);
+	echo json_encode(array($output));
 }
 //
 function	inserirNovoToken($token,$id,$username,$pass,$banco) {
