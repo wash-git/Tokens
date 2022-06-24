@@ -71,7 +71,12 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		MENS_07 = "Escolha a Sub-Classe",
 		MENS_08 = "Formulário-3: Tokens",
 		MENS_09 = "Tokens na base de dados",
-		MENS_10 = "Estatísticas";
+		MENS_10 = "Estatísticas",
+		MENS_11 = "Verbetes na base de dados",
+		MENS_12 = "Facilidade:",
+		MENS_13 = "Verbetes",
+		MENS_14 = "Listar Tokens",
+		MENS_15 = "Criar Tokens";
 	const MENS_ER01 = "Erro-01: parâmetro 'local' inexistente",
 		MENS_ER02 = "Erro-02: problemas na comunicação JSON";
 	//
@@ -99,7 +104,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 				toMontarForm1();
 			}
 			break;
-		case	'HLTOKENS':	// ação: listar tokens
+		case	'HLTOKENS':								// ação: listar tokens
 			toRequisitarHtml(tokenDados.arq_html.HLTOKENS,'LATERAL');
 			toRequisitarTokens('CENTRAL','HLTOKENS');
 			break;
@@ -107,13 +112,15 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			toRequisitarHtml(tokenDados.arq_html.HSTATUS,'LATERAL');
 			toMostrarStatus();
 			break;
-		case    'HVERBET':
+		case    'HVERBET':								// ação: listar os verbetes
 			toRequisitarHtml(tokenDados.arq_html.HVERBET,'LATERAL');
+			toRequisitarVerbetes('CENTRAL','HVERBET');
 			break;
 		case	'RESPOSTA_HTML':
 			toPublicarTexto(p_param1,p_param2);			
 			break;
 		case	'RESPOSTA_JSON':
+			console.log("chegou resposta json-> ",p_param1);
 			if (p_param1 == 'HATOKENS'){
 				tokenDados.classes=p_param2;
 				tokenDados.classesRequisited=true;
@@ -129,6 +136,9 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 					tokenDados.tokens=p_param2;
 					toMontarListagemTokens();
 				}
+			} else if (p_param1 == 'HVERBET') {			// chegou lista de verbetes
+				//console.log("esses sao os verbetes= ",p_param2);
+				toMontarListagemVerbetes(p_param2);
 			} else {
 				alert("Ooooopppsss");
 			}
@@ -214,20 +224,30 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 					}
 				}
 			}
-			requisicaoAjax3.open("POST", 'to_php/token_processa.php', true);		// open: informa ao servidor o endereço do arquivo que está sendo requisitado
+			switch(funcao){
+				case 'HOME':
+				case 'HATOKENS':	
+					requisicaoAjax3.open("POST", 'to_php/token_processa.php', true);	// open: informa ao servidor o endereço do arquivo que está sendo requisitado
 															// geralmente usa-se GET quando não se envia dados ao servidor
 															// true= comunicação assíncrona
-			requisicaoAjax3.timeout = 4000;					// tempo limite em milisegundos para aguardar a resposta
-			requisicaoAjax3.ontimeout = function() {toFrontEnd('TIMEOUT',"tempo excedido");};
-
-			requisicaoAjax3.setRequestHeader('Content-Type','application/x-www-form-urlencoded;charset=UTF-8');
-			switch(funcao){
-				case 'HATOKENS':
-				case 'HOME':
+					requisicaoAjax3.timeout = 4000;			// tempo limite em milisegundos para aguardar a resposta
+					requisicaoAjax3.ontimeout = function() {toFrontEnd('TIMEOUT',"tempo excedido");};
+					requisicaoAjax3.setRequestHeader('Content-Type','application/x-www-form-urlencoded;charset=UTF-8');
 					dados='acao=arvore';
 					break;
 				case 'HLTOKENS':
+					requisicaoAjax3.open("POST", 'to_php/token_processa.php', true);
+					requisicaoAjax3.timeout = 4000;			
+					requisicaoAjax3.ontimeout = function() {toFrontEnd('TIMEOUT',"tempo excedido");};
+					requisicaoAjax3.setRequestHeader('Content-Type','application/x-www-form-urlencoded;charset=UTF-8');
 					dados='acao=listarTokens';
+					break;
+				case 'HVERBET':
+					requisicaoAjax3.open("POST", 've_php/verb_processa.php', true);
+					requisicaoAjax3.timeout = 4000;			
+					requisicaoAjax3.ontimeout = function() {toFrontEnd('TIMEOUT',"tempo excedido");};
+					requisicaoAjax3.setRequestHeader('Content-Type','application/x-www-form-urlencoded;charset=UTF-8');
+					dados='acao=listarVerbetes';
 					break;
 				default:
 					alert("OOOooooppppssss 3");
@@ -250,8 +270,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		array4+="<tr><td>Classes PAI</td><td>"+tokenDados.classes_pai.length+"</td></tr>";
 		array4+="<tr><td>Subclasses (como opção de classificação)</td><td>"+tokenDados.num_subclasses+"</td></tr>";
 		array4+="</table>";
-		toPublicarTexto("<h2>"+MENS_10+"</h2>"+array4,'CENTRAL');							// imprime os tokens existentes
-
+		toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_10+"</h1>"+array4,'CENTRAL');	// informações do status
 	}
 	//
 	/* *************************************************************************************** **
@@ -259,6 +278,15 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	** *************************************************************************************** */
 	//
 	function toRequisitarTokens(local,funcao) {
+		toPublicarTexto("",'CENTRAL');							// limpa toda tela 'CENTRAL'
+		toRequisitarJson (local,funcao);
+	}
+	//
+	/* *************************************************************************************** **
+	*                                   FUNÇÃO REQUISITAR VERBETES                              *
+	** *************************************************************************************** */
+	//
+	function toRequisitarVerbetes(local,funcao) {
 		toPublicarTexto("",'CENTRAL');							// limpa toda tela 'CENTRAL'
 		toRequisitarJson (local,funcao);
 	}
@@ -305,7 +333,49 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		}
 		array4+="</table>";
 		array3=array2.join('<br />');
-		toPublicarTexto("<h2>"+MENS_09+"</h2>"+array4,'CENTRAL');							// imprime os tokens existentes
+		toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_14+"</h1><h2>"+MENS_09+"</h2>"+array4,'CENTRAL'); // imprime tokens existentes
+	}
+	//
+	/* *************************************************************************************** **
+	*                            FUNÇÃO MONTAR LISTAGEM DE VERBETES                             *
+	** *************************************************************************************** */
+	//
+	function toMontarListagemVerbetes(p_verbetes){
+		var score=[0,0,0,0,0,0,0], array4;
+		var faixa=["mais de 100 ocorrências",
+			"40 < ocorrênicas < 100",
+			"20 < ocorrências < 40",
+			"10 < ocorrências < 20",
+			"5 < ocorrências < 10",
+			"2 < ocorrênicas < 5",
+			"1 ocorrência apenas"];
+
+		console.log("quantidade de verbetes= ",p_verbetes[0].length);
+		for (let j in p_verbetes[0]){
+			if (p_verbetes[0][j].ocorrencias > 100){		// mais de 100 ocorrências
+				score[0] +=1;
+			} else if (p_verbetes[0][j].ocorrencias > 40) {	// entre 40 e 100 ocorrências
+				score[1] +=1;
+			} else if (p_verbetes[0][j].ocorrencias > 20) {	// entre 20 e 40 ocorrências
+				score[2]++;
+			} else if (p_verbetes[0][j].ocorrencias > 10) {	// entre 10 e 20 ocorrências
+				score[3]++;
+			} else if (p_verbetes[0][j].ocorrencias > 5) {	// entre 5 e 10 ocorrências
+				score[4]++;
+			} else if (p_verbetes[0][j].ocorrencias > 2) {	// entre 2 e 5 ocorrências
+				score[5]++;
+			} else if (p_verbetes[0][j].ocorrencias =1) {	// uma ocorrência
+				score[6]++;
+			} else {
+				alert("valor estranho");
+			}
+		}
+		array4="<table id=\"tabletokens\"><tr><th>Faixa</th><th>Quantidade de Verbetes</th></tr>";
+		for (let j in score) {
+			array4+="<tr><td>"+faixa[j]+"</td><td>"+score[j]+"</td></tr>";
+		}
+		array4+="</table>";
+		toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_13+"</h1><h2>"+MENS_11+"</h2>"+array4,'CENTRAL');   // imprime os índices dos verbetes existentes
 	}
 	//
 	/* *************************************************************************************** **
@@ -335,7 +405,8 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		toPublicarTexto("<h2>"+MENS_01+"</h2>"+array3,'LADO_B');							// imprime no LADO-B as classes PAI existentes
 		//
 		//																			Cria um formulário para seleção da classe PAI
-		toPublicarTexto("<h2>"+MENS_04+"</h2>",'LADO_A');								// msg para escolher a classe pai
+		toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_15+"</h1><h2>"+MENS_04+"</h2>",'LADO_A');
+//		toPublicarTexto("<h2>"+MENS_04+"</h2>",'LADO_A');								// msg para escolher a classe pai
 		var vele = document.createElement("div");									// cria um novo elemento div dentro de LADO_A
 		vele.setAttribute("class","selclasse");
 		vele.setAttribute("id",tokenDados.id_pagina['FORM1']);
