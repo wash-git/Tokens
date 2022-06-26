@@ -1,4 +1,3 @@
-
 /*********************/
 /* BASIC */
 /*********************/
@@ -231,13 +230,23 @@ display: block;
 	background-color: yellow;
 	font-size: 0.6em;
 }
-/*
-#ladoA th,td {
-	padding: 15px;
-	text-align: left;
-	border-bottom: 1px solid #ddd;
+/*********************/
+/* MENSAGENS ERROS   */
+/*********************/
+.visib {
+	display:inline; /* inline - none */
+	color:red;
+	font-weight: bold;
+	font-size: 1.5em;
+	animation: mymove 5s infinite;
 }
-*/
+.invisib {
+	display:none; /* inline - none */
+}
+@keyframes mymove {
+  from {color: blue;}
+  to {color: red;}
+}
 /*********************/
 /* FOOTER */
 /*********************/

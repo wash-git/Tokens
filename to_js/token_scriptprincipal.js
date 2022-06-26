@@ -26,6 +26,7 @@
 //	definição da variável global
 var	tokenDados = {
 	id_pagina : {
+		"TITULO": "titulo",
 		"CENTRAL":"main",
 		"LATERAL":"secondary",
 		"LEAD":"lead",
@@ -35,18 +36,19 @@ var	tokenDados = {
 		"FORM2" : "idform2",
 		"FORM3" : "idform3",
 		"SUBCLA": "subcla",
-		"TOKEN" : "token"
+		"TOKEN" : "token",
+		"MENSAG": "mensag"
 	},
 	arq_html :  {
 		"HOME" : "to_help/token_home.html",
-		"HATOKENS" : "to_help/token_atokens.html",
+		"HCTOKENS" : "to_help/token_atokens.html",		// criat tokens
 		"HLTOKENS"  :"to_help/token_ltokens.html",
 		"HVERBET"  : "to_help/token_verbetes.html",
 		"HSTATUS"  : "to_help/token_status.html",
 		"HAPRESE"  : "to_help/token_apresentacao.html"
 	},
 	classes : [],
-	classesRequisited : [false],	// se lista tokenDados.classes já está disponível
+	classesRequisited : false,	// se o objeto tokenDados.classes (com a lista de classes) já está disponível
 	classes_pai : [],				// lista das classes PAI: [desc,id na base dados]
 	num_subclasses : 0,				// número total de subclasses passíveis de classificar tokens
 	classe_paiselected : [false,,],	// [Selecionou?, ID de entrada na base de dados, descrição]
@@ -71,48 +73,66 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		MENS_07 = "Escolha a Sub-Classe",
 		MENS_08 = "Formulário-3: Tokens",
 		MENS_09 = "Tokens na base de dados",
-		MENS_10 = "Estatísticas",
+		MENS_10 = "Status",
 		MENS_11 = "Verbetes na base de dados",
-		MENS_12 = "Facilidade:",
+		MENS_12 = "Facilidade: ",
 		MENS_13 = "Verbetes",
 		MENS_14 = "Listar Tokens",
-		MENS_15 = "Criar Tokens";
-	const MENS_ER01 = "Erro-01: parâmetro 'local' inexistente",
-		MENS_ER02 = "Erro-02: problemas na comunicação JSON";
+		MENS_15 = "Criar Tokens",
+		MENS_16 = "Módulo: ",
+		MENS_17 = "Tokens - Árvore Hierárquica";
+	const	MENS_ER01 = "Erro-01: parâmetro 'local' inexistente",
+			MENS_ER02 = "Erro-02: problemas na comunicação JSON",
+			MENS_ER03 = "Erro-03: falha na comunicação com o servidor",
+			MENS_ER04 = "Erro-04: falha na comunicação com o servidor",
+			MENS_ER05 = "Erro-05: é necessário primeiro obter a Árvore Hierárquica, o que ainda não foi obtida",
+			MENS_ER06 = "Erro-06: não foi identificado para qual funcionalidade o JSON foi obtido",
+			MENS_ER07 = "Erro-07: não foi obtido resposta do servidor após enviar novo token";
 	//
 	switch(p_acao) {
         case    'TRATAR_ESCOLHA':
 			return;
-        case    'INICIAR':
+        case    'INICIAR':				// chamada apenas na carga inicial do Módulo
+			toPublicarTexto("<h1><span class=\"section\">"+MENS_16+"</span>"+MENS_17+"</h1>",'TITULO'); 
 			toRequisitarHtml(tokenDados.arq_html.HOME, 'LATERAL');
 			toRequisitarHtml(tokenDados.arq_html.HAPRESE, 'CENTRAL');
 			toRequisitarJson('CENTRAL','HOME');
 			break;
-		case	'HOME':
+		case	'HOME':					// página inicial: chamada todas as vezes que o internauta usa a opção do menu HOME
+			document.getElementById(tokenDados.id_pagina['MENSAG']).innerHTML = "";	// limpar área de avisos do Módulo
+			document.getElementById(tokenDados.id_pagina['MENSAG']).setAttribute("class", "invisib");
+			toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_16+"</span>"+MENS_17+"</h1>",'TITULO'); 
 			toRequisitarHtml(tokenDados.arq_html.HOME, 'LATERAL');
 			toRequisitarHtml(tokenDados.arq_html.HAPRESE, 'CENTRAL');
 			if ( ! tokenDados.classesRequisited ) {
 				toRequisitarJson('CENTRAL','HOME');
 			}
 			break;	
-		case	'HATOKENS':	// ação: criar tokens
-			//toRequisitarHtml(tokenDados.arq_html[p_acao],'LATERAL');
-			toRequisitarHtml(tokenDados.arq_html.HATOKENS,'LATERAL');
+		case	'HCTOKENS':				// ação: criar tokens
+			document.getElementById(tokenDados.id_pagina['CENTRAL']).innerHTML = "";	// limpar área da tela principal
+			toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_15+"</h1>",'TITULO'); 
+			toRequisitarHtml(tokenDados.arq_html.HCTOKENS,'LATERAL');
 			if ( ! tokenDados.classesRequisited ) {
-				toRequisitarJson('CENTRAL','HATOKENS');
+				toRequisitarJson('CENTRAL','HCTOKENS');									// requisitar as classes (que ainda não estão disponíveis localmente)
 			} else {
 				toMontarForm1();
 			}
 			break;
-		case	'HLTOKENS':								// ação: listar tokens
+		case	'HLTOKENS':				// ação: listar tokens
+			toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_14+"</h1>",'TITULO'); 
 			toRequisitarHtml(tokenDados.arq_html.HLTOKENS,'LATERAL');
 			toRequisitarTokens('CENTRAL','HLTOKENS');
 			break;
 		case    'HSTATUS':
+			document.getElementById(tokenDados.id_pagina['MENSAG']).innerHTML = "";	// limpar área de avisos do Módulo
+			document.getElementById(tokenDados.id_pagina['MENSAG']).setAttribute("class", "invisib");
+			toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_10+"</h1>",'TITULO'); 
 			toRequisitarHtml(tokenDados.arq_html.HSTATUS,'LATERAL');
 			toMostrarStatus();
 			break;
-		case    'HVERBET':								// ação: listar os verbetes
+		case    'HVERBET':				// ação: listar os verbetes
+			document.getElementById(tokenDados.id_pagina['MENSAG']).innerHTML = "";	// limpar área de avisos do Módulo
+			toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_13+"</h1>",'TITULO'); 
 			toRequisitarHtml(tokenDados.arq_html.HVERBET,'LATERAL');
 			toRequisitarVerbetes('CENTRAL','HVERBET');
 			break;
@@ -120,27 +140,23 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			toPublicarTexto(p_param1,p_param2);			
 			break;
 		case	'RESPOSTA_JSON':
-			console.log("chegou resposta json-> ",p_param1);
-			if (p_param1 == 'HATOKENS'){
+			if (p_param1 == 'HCTOKENS'){				// resposta para criar tokens
 				tokenDados.classes=p_param2;
 				tokenDados.classesRequisited=true;
 				toMontarForm1();
-			} else if (p_param1 == 'HOME') {
-				toMontarDados(p_param2);				// montar dados essenciais nesta fase de iniciação
-				//tokenDados.classes=p_param2;
-				//tokenDados.classesRequisited=true;
-			} else if (p_param1 == 'HLTOKENS') {
+			} else if (p_param1 == 'HOME') {			// resposta quando da iniciação do Módulo
+				toMontarDados(p_param2);
+			} else if (p_param1 == 'HLTOKENS') {		// resposta para listar tokens
 				if ( ! tokenDados.classesRequisited ) {
 					alert ("Ooooops.  Classes ainda não disponíveis");
 				} else {
 					tokenDados.tokens=p_param2;
 					toMontarListagemTokens();
 				}
-			} else if (p_param1 == 'HVERBET') {			// chegou lista de verbetes
-				//console.log("esses sao os verbetes= ",p_param2);
+			} else if (p_param1 == 'HVERBET') {			// resposta para listagem de verbetes
 				toMontarListagemVerbetes(p_param2);
 			} else {
-				alert("Ooooopppsss");
+				fMensagErro(MENS_ER06);
 			}
 			break;
 		case	'RESPOSTA_TOKEN':
@@ -154,12 +170,6 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
             window.alert("erro");
             return false;
     }
-	/*
-	*	FUNÇÃO INFORMAR ERRO
-	*/
-	function toTratarErro(e){
-		alert(e);
-	}
 	//
 	//
 	/*
@@ -180,19 +190,30 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			case	'CENTRAL':
 				break;
 			default:
-				toTratarErro(MENS_ER01);
+				toMensagErro(MENS_ER01);
 				return;
 		}
 		var vobjetoAjax=toIniciarAjax();					// instanciar um objeto XMLHttpRequest para a requisição
-		if (vobjetoAjax) {									// verifica se o objeto XMLHttpRequest foi criardo
+		if (vobjetoAjax) {									// verifica se o objeto XMLHttpRequest foi criado
+			var timedout=false;
+			var timer = setTimeout(function() {				// abre uma temporização para a resposta do servidor chegar
+									timedout = true;
+									vobjetoAjax.abort();
+									toMensagErro (MENS_ER03);
+									//console.log ("deu timeout aqui");
+			},2000);											// 2segundos
+//			var timer = setTimeout(tratarTimeoutComunicacao (vobjetoAjax,timedout),200);
 			vobjetoAjax.onreadystatechange = function() {
 															// propriedade onreadyStatechange:
 															// ação disparadora de evento, originada no servidor
 															// disparada por uma propriedade do objeto XMLHttpRequest
 				if (vobjetoAjax.readyState === 4 && vobjetoAjax.status === 200 ) { 		// se requisição completa e bem-sucedida
+					if (timedout) return;					// ignora requisições canceladas
 					var type = vobjetoAjax.getResponseHeader("Content-Type");
-					if (type.match(/^text/))											// certifica-se de que a resposta seja texto
-						toFrontEnd('RESPOSTA_HTML',vobjetoAjax.responseText,local);	// passa a resposta para função callback
+					if (type.match(/^text/)) {				// certifica-se de que a resposta seja texto
+						clearTimeout(timer);				// cancela tempo-limite pendente
+						toFrontEnd('RESPOSTA_HTML',vobjetoAjax.responseText,local);	// *** callback ***
+					}
 				}
 			};
 			vobjetoAjax.open("GET",arquivo,true);			// open: informa ao servidor o endereço do arquivo que está sendo requisitado
@@ -202,6 +223,14 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 															// null pois não temos dados a enviar
 		} // if
 	} // fim função toRequisitarHtml
+	/* *************************************************************************************** **
+	*                            FUNÇÃO ENVIAR MENSAGEM DE ERRO                                 *
+	** *************************************************************************************** */
+	//
+	function toMensagErro(mens) {
+		document.getElementById(tokenDados.id_pagina['MENSAG']).innerHTML = mens;
+		document.getElementById("mensag").setAttribute("class", "visib");
+	}
 	//
 	//
 	/* *************************************************************************************** **
@@ -209,24 +238,33 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	** *************************************************************************************** */
 	//
 	function toRequisitarJson (local,funcao) {
-		var dados,resposta;
+		var dados,resposta, timer;
+		var timedout=false;
 		var requisicaoAjax3 = toIniciarAjax(); 
 		if(requisicaoAjax3) {
+			timer =setTimeout(function() {						// abre uma temporização para a resposta do servidor chegar
+									timedout = true;
+									requisicaoAjax3.abort();
+									toMensagErro (MENS_ER04);
+			},4000);											// 4segundos
+
 			requisicaoAjax3.onreadystatechange = function () {	// ação disparadora de evento, originada no servidor
-															// houve uma mudança no status de comunicação entre o servidor e o navegador
-															// disparada por uma propriedade do objeto XMLHttpRequest
+																// houve uma mudança no status de comunicação entre o servidor e o navegador
+																// disparada por uma propriedade do objeto XMLHttpRequest
 				if(requisicaoAjax3.readyState == 4) {
-					if(requisicaoAjax3.status == 200 || requisicaoAjax3.status == 304) {	
+					if(requisicaoAjax3.status == 200 || requisicaoAjax3.status == 304) {
+						if (timedout) return;									// ignora requisições canceladas
 						if (requisicaoAjax3.getResponseHeader("Content-Type") == "application/json"){
-							resposta=JSON.parse(requisicaoAjax3.responseText);   // converter o string JSON em um objeto Javascript
-							toFrontEnd('RESPOSTA_JSON',funcao,resposta);	// **** callback ****
+							clearTimeout(timer);								// cancela tempo-limite pendente
+							resposta=JSON.parse(requisicaoAjax3.responseText);	// converter o string JSON em um objeto Javascript
+							toFrontEnd('RESPOSTA_JSON',funcao,resposta);		// **** callback ****
 						}
 					}
 				}
 			}
 			switch(funcao){
 				case 'HOME':
-				case 'HATOKENS':	
+				case 'HCTOKENS':	
 					requisicaoAjax3.open("POST", 'to_php/token_processa.php', true);	// open: informa ao servidor o endereço do arquivo que está sendo requisitado
 															// geralmente usa-se GET quando não se envia dados ao servidor
 															// true= comunicação assíncrona
@@ -250,7 +288,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 					dados='acao=listarVerbetes';
 					break;
 				default:
-					alert("OOOooooppppssss 3");
+					toMensagErro(MENS_ER02);
 					return;
 			}
 			requisicaoAjax3.send(dados);						// send: inicia a requisição definida pelo método open anterior
@@ -265,12 +303,16 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	function toMostrarStatus() {
 		var array4=[];
 		toPublicarTexto("",'CENTRAL');                          // limpa toda tela 'CENTRAL'
+		if ( ! tokenDados.classesRequisited ) {
+			toMensagErro(MENS_ER05);
+			return;
+		}
 		array4="<table id=\"tabletokens\"><tr><th>Indicador</th><th>Valor</th></tr>";
 		array4+="<tr><td>Classes</td><td>"+tokenDados.classes[0].length+"</td></tr>";
 		array4+="<tr><td>Classes PAI</td><td>"+tokenDados.classes_pai.length+"</td></tr>";
 		array4+="<tr><td>Subclasses (como opção de classificação)</td><td>"+tokenDados.num_subclasses+"</td></tr>";
 		array4+="</table>";
-		toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_10+"</h1>"+array4,'CENTRAL');	// informações do status
+		toPublicarTexto(array4,'CENTRAL');	// informações do status
 	}
 	//
 	/* *************************************************************************************** **
@@ -333,7 +375,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		}
 		array4+="</table>";
 		array3=array2.join('<br />');
-		toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_14+"</h1><h2>"+MENS_09+"</h2>"+array4,'CENTRAL'); // imprime tokens existentes
+		toPublicarTexto("<h2>"+MENS_09+"</h2>"+array4,'CENTRAL'); // imprime tokens existentes
 	}
 	//
 	/* *************************************************************************************** **
@@ -375,7 +417,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			array4+="<tr><td>"+faixa[j]+"</td><td>"+score[j]+"</td></tr>";
 		}
 		array4+="</table>";
-		toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_13+"</h1><h2>"+MENS_11+"</h2>"+array4,'CENTRAL');   // imprime os índices dos verbetes existentes
+		toPublicarTexto("<h2>"+MENS_11+"</h2>"+array4,'CENTRAL');   // imprime os índices dos verbetes existentes
 	}
 	//
 	/* *************************************************************************************** **
@@ -384,17 +426,17 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	//
 	function toMontarForm1(requisicaoAjax3,local) {
 		var i=0, j=0, array2=[], array3=[];
-		//													limpar referência a qualquer seleção de classe anterior
+		//																			limpar referência a qualquer seleção de classe anterior
 		tokenDados.classe_paiselected=[];
 		tokenDados.subclasse_selected=[];
 		tokenDados.subclasses=[];
-		//													Selecionar as classes PAI
-		//													Divide a tela central em duas partes: LADO-A e LADO-B
-		toPublicarTexto("",'CENTRAL');							// limpa toda tela 'CENTRAL'
-		var aa = document.createElement ("div");			// prepara criação um novo elemento div 
+		//																			Selecionar as classes PAI
+		//																			Divide a tela central em duas partes: LADO-A e LADO-B
+		toPublicarTexto("",'CENTRAL');												// limpa toda tela 'CENTRAL'
+		var aa = document.createElement ("div");									// prepara criação um novo elemento div 
 		document.getElementById(tokenDados.id_pagina['CENTRAL']).appendChild (aa);	// insere o novo div na página
 		aa.setAttribute('id',tokenDados.id_pagina['LADO_A']);						// definir o atributo do novo elemento div: LADO_A
-		aa = document.createElement ("div");									// cria main um novo elemento div
+		aa = document.createElement ("div");										// cria main um novo elemento div
 		document.getElementById(tokenDados.id_pagina['CENTRAL']).appendChild (aa);	// insere o novo div na página
 		aa.setAttribute('id',tokenDados.id_pagina['LADO_B']);						// definir o atributo do elemento div criado
 		//
@@ -405,8 +447,6 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		toPublicarTexto("<h2>"+MENS_01+"</h2>"+array3,'LADO_B');							// imprime no LADO-B as classes PAI existentes
 		//
 		//																			Cria um formulário para seleção da classe PAI
-		toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_15+"</h1><h2>"+MENS_04+"</h2>",'LADO_A');
-//		toPublicarTexto("<h2>"+MENS_04+"</h2>",'LADO_A');								// msg para escolher a classe pai
 		var vele = document.createElement("div");									// cria um novo elemento div dentro de LADO_A
 		vele.setAttribute("class","selclasse");
 		vele.setAttribute("id",tokenDados.id_pagina['FORM1']);
@@ -542,7 +582,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			//													tratador para o botão de escolha da classe PAI
 			document.getElementById('botaotokenxx').onclick = function () {
 				// enviar token para o servidor
-				toEnviarDado("novotoken",sel3.value,tokenDados.subclasse_selected[1]+1);	// envia o id da sub-classe
+				toEnviarToken("novotoken",sel3.value,tokenDados.subclasse_selected[1]+1);	// envia o id da sub-classe
 																							// adicionamos 1 porque o SGBD inicia os registros em 1 (em vez de 0)
 			}
 
@@ -564,18 +604,28 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	//
 	//
 	//
-	function toEnviarDado(param1,param2,param3){
+	function toEnviarToken(param1,param2,param3){
 		// enviar dado ao servidor
+		var timer;
+		var timedout=false;
 		var objetoAjax = toIniciarAjax();
 		if(objetoAjax) {
+		timer =setTimeout(function() {						// abre uma temporização para a resposta do servidor chegar
+									timedout = true;
+									objetoAjax.abort();
+									toMensagErro (MENS_ER07);
+			},4000);											// 4segundos
 			objetoAjax.onreadystatechange = function () {	// ação disparadora de evento, originada no servidor
 															// houve uma mudança no status de comunicação entre o servidor e o navegador
 															// disparada por uma propriedade do objeto XMLHttpRequest
 				if(objetoAjax.readyState == 4) {
 					if(objetoAjax.status == 200 || objetoAjax.status == 304) {
+						if (timedout) return;
 						var type = objetoAjax.getResponseHeader("Content-Type");
-						if (type.match(/^text/))				// certifica-se de que a resposta seja texto
-                       		toFrontEnd('RESPOSTA_TOKEN',objetoAjax.responseText); // passa a resposta para função callback
+						if (type.match(/^text/)){				// certifica-se de que a resposta seja texto
+							clearTimeout(timer);
+                       		toFrontEnd('RESPOSTA_TOKEN',objetoAjax.responseText); // *** callback ***
+						}
                    	}
 				}
 			};
@@ -584,7 +634,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			var dados='acao='+param1+'&token='+param2+'&id='+param3;
 			objetoAjax.send(dados);
 		}
-	} // fim função toEnviarDado()
+	} // fim função toEnviarToken()
 	//
 	/* *************************************************************************************** **
 	*                         FUNÇÃO TRATAR DADOS HTML ENVIADOS PELO SERVIDOR                   *
