@@ -144,16 +144,38 @@ Explicações:
 <li><h3 id="arvore">Árvore Hierárquica</h3></li>
 <p>A modelagem da Árvore Hierárquica é uma tarefa crucial para o bom funcionamento do módulo. A partir desta modelagem será possível realizar as seguintes operações:</p>
 <ul>
-<li>a inserção de forma automatizada de tokens na base de dados;</li>
-<li>facilidades aos usuários de manipulação de tokens com integridade.</li>
+<li>listar tokens;</li>
+<li>inserção de forma automatizada de tokens na base de dados;</li>
+<li>facilidades de manipulação de tokens com integridade.</li>
 </ul>
-<p>Assim, preparar a Árvore Hierárquica obedecendo algumas regras é fator crucial para sucesso do funcionamento do módulo. Regras estas que estaremos descrevendo a partir de agora.</p>
-<p>Sugerimos a leitura de dois documentos que embasam todo trabalho de modelagem da Árvore Hierárquica:
+<p>Assim, preparar a Árvore Hierárquica é fator crucial para sucesso do funcionamento do módulo. Regras estas que estaremos descrevendo a partir de agora.</p>
+<p>Sugerimos a leitura de dois documentos abaixo que embasam todo trabalho de modelagem da Árvore Hierárquica. Esses documentos demonstram como os tokens são agrupados e aninhados de acordo com o “nested set model”:
 <ul>
 <li><a href="http://mikehillyer.com/articles/managing-hierarchical-data-in-mysql/" target="_blanck">Managing Hierarchical Data in MySQL</a></li>
 <li><a href="./token_arvoreLinguaPortuguesa.pdf" target="_blanck">Árvore Hierárquica da Estrutura Gramatical da Língua Portuguesa</a></li>
 </ul>
-<p>Os dois documentos acima demonstram como os tokens são agrupados e aninhados de acordo com o “nested set model”.</p> 
+<p>A seguir temos um exemplo de uma planilha de definição de uma Árvore Hierárquica:</p>
+<div class="img_container">
+<img src="./token_csv_arvore_tab.png"  height="90%" class="img_item"  />
+<img src="./token_csv_arvore_config.png" height="90%" class="img_item"  />
+</div>
+<dl>
+<dt>As colunas representam:</dt>
+<dd>- id</dd>
+<dd>- nome da classe: referência resumida à classe. Sem uso pelo software.</dd>
+<dd>- lft: numeração do lado esquerdo do nó.</dd>
+<dd>- rgt: numeração do lado direito do nó.</dd>
+<dd>- opção: identificação de uma opção possível para classificação do token.  Pode ser uma classe PAI ou uma sub-classe.</dd>
+<dd>- pai: marcação de uma classe PAI (quando seu valor for 1. Se valor for 0, não é uma classe PAI).</dd>
+<dd>- grupo: reservado.  Sem uso pelo software por enquanto.</dd>
+<dd>- descrição: nome da claasse (classes PAI e sub-classes) como será visualizada pelo usuário através do navegador.</dd>
+</dl>
+<br />Observações:
+<ul>
+<li>opção: quando marcado com valor 0, essa classe não será utilizada para classificar o token.  Ou seja, não aparecerá entre as opções possíveis para criação de token.</li>
+<li>pai: quando marcado com valor 1 significa que esta classe é uma classe PAI. Se valor for 0, não é uma classe PAI.</li>
+<li>descrição: observe que não houve o preenchimento desse campo em algumas linhas da planilha.  É apenas obrigatório preencher esta descrição quando a classe estiver marcada como PAI, ou ainda quando estiver marcada como uma opção de classificação de token.  Em outra situação além destas duas, é opcional o preenchimento deste campo já que neste caso esse campo não será utilizado pelo software.</p>
+</ul>
 </p>
 <p></p>
 <!--

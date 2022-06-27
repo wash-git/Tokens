@@ -4,10 +4,10 @@
 #									
 TOROOT_UID=0                       # root ID
 TOPINSTTOKEN="to_install"          # nome da pasta de instalação deste módulo
-TOPINSTSUPER="../su_install"       # nome da pasta de instalação da Superinterface
-TOACONFTOKEN="token_config.cnf"    # arquivo de configuração do módulo
-TOACONFSUPER="super_config.cnf"    # arquivo de configuração da Superinterface
-declare -A arv                     # variável arv ('árvore hierárquica') guardará informações da árvore hierárquica necessárias
+#TOPINSTSUPER="../su_install"       # nome da pasta de instalação da Superinterface
+TOACONFTOKEN="token_config.cnf"    # arquivo de configuração deste módulo
+#TOACONFSUPER="super_config.cnf"    # arquivo de configuração da Superinterface
+#declare -A arv                     # variável arv ('árvore hierárquica') guardará informações da árvore hierárquica necessárias
 #                                  para geração dos códigos PHP das telas (códigos PHP de geração automática por este script)
 #
 #                                                                        :           :           :
@@ -185,6 +185,8 @@ function tofInit () {
 		fMens "$FInsu1" "$MErr03"
 		exit
 	fi
+	#
+	source  $TOACONFTOKEN									# inserir arquivo de configuração deste módulo
 	#														verificar se a Superinterface está instalada
 	if [ ! -d $TOPINSTSUPER ]; then
 		fMens "$FInsu1"	"$MErr09"
@@ -196,7 +198,6 @@ function tofInit () {
 		exit
 	fi
 	source	$TOPINSTSUPER/$TOACONFSUPER						# inserir arquivo de configuração da Superinterface
-	source  $TOACONFTOKEN									# inserir arquivo de configuração deste módulo
 	#														definir permissões iniciais temporárias de acesso a pastas e arquivos
 	find ../to_* -type d -exec chmod $TOCHMOD750 {} \;
 	find ../to_* -type f -exec chmod $TOCHMOD640 {} \;
@@ -224,13 +225,6 @@ function tofInit () {
 		fMens "$FInsuc" "$MErr07"
 		exit
 	fi
-	#										criar pasta de trabalho
-	#rm -rf $TOPWORK 2>/dev/null
-	#mkdir $TOPWORK
-	#if [ $? -ne 0 ]; then
-	#	fMens "$FInsuc" "$MErr08"
-	#	exit
-	#fi
 	#										verificar existência de pasta de javascript deste módulo
 	if [ ! -d $TOPJS ]; then
 		fMens "$FInsuc" "$MErr10"
@@ -384,7 +378,7 @@ tofResumo () {
 		fMens "$FInfo4" "$MInfo13 $arq= "
 		fMens "$FInfo1" "$(mysql -N -u $CPBASEUSER -p$CPBASEPASSW -b $CPBASE -e "SELECT count(*) FROM $arq") "
 	done
-	totalpai=$(mysql -N -u $CPBASEUSER -p$CPBASEPASSW -b $CPBASE -e "SELECT count(*) FROM $TOTABCLASSES WHERE tela<>0")
+	totalpai=$(mysql -N -u $CPBASEUSER -p$CPBASEPASSW -b $CPBASE -e "SELECT count(*) FROM $TOTABCLASSES WHERE pai<>0")
 	fMens	"$FInfor"	"$MInfo09$totalpai"
 	fMens   "$FSucs2"   "$MInfo14"
 	fMens	"$FInfo2"	"$MInfo15" ; fMens	"$FInfo1"	"$TOPLOG/$TOALOG"

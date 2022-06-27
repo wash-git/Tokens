@@ -3,7 +3,7 @@ CREATE TABLE to_nested_classes (id_chave_classe int AUTO_INCREMENT not null, nom
 
 ALTER TABLE to_nested_classes 
 	ADD opcao tinyint DEFAULT FALSE after rgt,
-	ADD tela   tinyint DEFAULT FALSE after opcao,
-	ADD grupo int after tela,
+	ADD pai   tinyint DEFAULT FALSE after opcao,
+	ADD grupo int after pai,
 	ADD descricao VARCHAR(64) DEFAULT " " after grupo;
 

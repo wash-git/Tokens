@@ -343,12 +343,8 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		tokenDados.classesRequisited=true;					// classes de tokens estão disponíveis para utilização
 		//													Selecionar as classes PAI
 		for (i=0;i<tokenDados.classes[0].length;i++) {
-			if (tokenDados.classes[0][i].tela == 1) {
-				let aa = {
-					"desc": tokenDados.classes[0][i].descricao,
-					"ident":tokenDados.classes[0][i].id_chave_classe
-				}
-				tokenDados.classes_pai.push(aa);
+			if (tokenDados.classes[0][i].pai == 1) {
+				tokenDados.classes_pai.push({"desc": tokenDados.classes[0][i].descricao,"ident":tokenDados.classes[0][i].id_chave_classe});
 			}
 		} // for
 		for ( let i in tokenDados.classes[0]){				// calcula o número de subclasses passíveis de classificar um token
@@ -425,7 +421,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	** *************************************************************************************** */
 	//
 	function toMontarForm1(requisicaoAjax3,local) {
-		var i=0, j=0, array2=[], array3=[];
+		var i=0, j=0, array2=[], array3=[], pai_lft,pai_rgt;
 		//																			limpar referência a qualquer seleção de classe anterior
 		tokenDados.classe_paiselected=[];
 		tokenDados.subclasse_selected=[];
@@ -440,12 +436,13 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		document.getElementById(tokenDados.id_pagina['CENTRAL']).appendChild (aa);	// insere o novo div na página
 		aa.setAttribute('id',tokenDados.id_pagina['LADO_B']);						// definir o atributo do elemento div criado
 		//
-		for (let j in tokenDados.classes_pai){
+		for (let j in tokenDados.classes_pai){										// seleciona o nome das classes PAI
 			array2[j]=tokenDados.classes_pai[j].desc;
 		}
 		array3=array2.join('<br />');												// formata lista de classes PAI para enviar ao LADO-B
-		toPublicarTexto("<h2>"+MENS_01+"</h2>"+array3,'LADO_B');							// imprime no LADO-B as classes PAI existentes
+		toPublicarTexto("<h2>"+MENS_01+"</h2>"+array3,'LADO_B');					// imprime no LADO-B as classes PAI existentes
 		//
+		toPublicarTexto("<h2>"+MENS_04+"</h2>",'LADO_A');							// msg para escolher a Subclasse
 		//																			Cria um formulário para seleção da classe PAI
 		var vele = document.createElement("div");									// cria um novo elemento div dentro de LADO_A
 		vele.setAttribute("class","selclasse");
@@ -477,13 +474,13 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			document.getElementById(tokenDados.id_pagina['SUBCLA']).innerHTML = "";
 			//																				identificar as subclasses
 			j=0;
-			var a1=Number(tokenDados.classes[0][tokenDados.classe_paiselected[1]].lft);
-			var a2=Number(tokenDados.classes[0][tokenDados.classe_paiselected[1]].rgt);
+			pai_lft=Number(tokenDados.classes[0][tokenDados.classe_paiselected[1]].lft);
+			pai_rgt=Number(tokenDados.classes[0][tokenDados.classe_paiselected[1]].rgt);
 			tokenDados.subclasses=[],j=0;
 			for (let i in tokenDados.classes[0]){
 				if (
-					(tokenDados.classes[0][i].lft >= a1) && 
-					(tokenDados.classes[0][i].lft <= a2) && 
+					(tokenDados.classes[0][i].lft >= pai_lft) && 
+					(tokenDados.classes[0][i].lft <= pai_rgt) && 
 					(tokenDados.classes[0][i].opcao == 1)
 				){
 					tokenDados.subclasses[j]=[i,tokenDados.classes[0][i].descricao];

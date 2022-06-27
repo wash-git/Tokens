@@ -11,6 +11,7 @@ TOPPHP="../to_php"                      # pasta de arquivos PHP deste módulo de
 TOPADMIN="../to_admin"                  # pasta de administração do script PHP deste módulo de tokens
 TOPCSS="../to_css"                      # pasta de CSS deste módulo de tokens
 TOPIMG="../to_images"                   # pasta de figuras deste módulo de tokens
+TOPINSTSUPER="../su_install"            # pasta de instalação da Superinterface
 #
 TOACONFSUPER="super_config.cnf"                   # arquivo de configuração da Superinterface
 TOACONFPHP="token_config_php.cnf"                 # arquivo que contém as informações de configuração para scripts PHP do módulo
