@@ -80,15 +80,23 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 		MENS_14 = "Listar Tokens",
 		MENS_15 = "Criar Tokens",
 		MENS_16 = "Módulo: ",
-		MENS_17 = "Tokens - Árvore Hierárquica";
+		MENS_17 = "Tokens - Árvore Hierárquica",
+		MENS_18 = "Token inserido no sistema: ";
 	const	MENS_ER01 = "Erro-01: parâmetro 'local' inexistente",
 			MENS_ER02 = "Erro-02: problemas na comunicação JSON",
 			MENS_ER03 = "Erro-03: falha na comunicação com o servidor",
 			MENS_ER04 = "Erro-04: falha na comunicação com o servidor",
 			MENS_ER05 = "Erro-05: é necessário primeiro obter a Árvore Hierárquica, o que ainda não foi obtida",
 			MENS_ER06 = "Erro-06: não foi identificado para qual funcionalidade o JSON foi obtido",
-			MENS_ER07 = "Erro-07: não foi obtido resposta do servidor após enviar novo token";
+			MENS_ER07 = "Erro-07: não foi obtido resposta do servidor após enviar novo token",
+			MENS_ER08 = "Erro-08: serviço de dados de verbetes teve insucesso na conexão com a base de dados",
+			MENS_ER09 = "Erro-09: serviço de dados de verbetes não encontrou nenhum verbete na base de dados",
+			MENS_ER10 = "Erro-10: não foi possível se conectar com a base de dados para fazer a inserção do novo token. Token não inserido",
+			MENS_ER11 = "Erro-11: serviço de dados de tokens não encontrou dados na sua base de dados", 
+			MENS_ER12 = "Erro-12: não foi possível fazer inserção do novo token na base de dados";
 	//
+	document.getElementById(tokenDados.id_pagina['MENSAG']).innerHTML = "";			// limpar área de avisos do Módulo
+	document.getElementById(tokenDados.id_pagina['MENSAG']).setAttribute("class", "invisib");
 	switch(p_acao) {
         case    'TRATAR_ESCOLHA':
 			return;
@@ -99,8 +107,6 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			toRequisitarJson('CENTRAL','HOME');
 			break;
 		case	'HOME':					// página inicial: chamada todas as vezes que o internauta usa a opção do menu HOME
-			document.getElementById(tokenDados.id_pagina['MENSAG']).innerHTML = "";	// limpar área de avisos do Módulo
-			document.getElementById(tokenDados.id_pagina['MENSAG']).setAttribute("class", "invisib");
 			toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_16+"</span>"+MENS_17+"</h1>",'TITULO'); 
 			toRequisitarHtml(tokenDados.arq_html.HOME, 'LATERAL');
 			toRequisitarHtml(tokenDados.arq_html.HAPRESE, 'CENTRAL');
@@ -109,7 +115,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			}
 			break;	
 		case	'HCTOKENS':				// ação: criar tokens
-			document.getElementById(tokenDados.id_pagina['CENTRAL']).innerHTML = "";	// limpar área da tela principal
+			document.getElementById(tokenDados.id_pagina['CENTRAL']).innerHTML = "";		// limpar área da tela principal
 			toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_15+"</h1>",'TITULO'); 
 			toRequisitarHtml(tokenDados.arq_html.HCTOKENS,'LATERAL');
 			if ( ! tokenDados.classesRequisited ) {
@@ -124,14 +130,11 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			toRequisitarTokens('CENTRAL','HLTOKENS');
 			break;
 		case    'HSTATUS':
-			document.getElementById(tokenDados.id_pagina['MENSAG']).innerHTML = "";	// limpar área de avisos do Módulo
-			document.getElementById(tokenDados.id_pagina['MENSAG']).setAttribute("class", "invisib");
 			toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_10+"</h1>",'TITULO'); 
 			toRequisitarHtml(tokenDados.arq_html.HSTATUS,'LATERAL');
 			toMostrarStatus();
 			break;
 		case    'HVERBET':				// ação: listar os verbetes
-			document.getElementById(tokenDados.id_pagina['MENSAG']).innerHTML = "";	// limpar área de avisos do Módulo
 			toPublicarTexto("<h1 id=\"lead\"><span class=\"section\">"+MENS_12+"</span>"+MENS_13+"</h1>",'TITULO'); 
 			toRequisitarHtml(tokenDados.arq_html.HVERBET,'LATERAL');
 			toRequisitarVerbetes('CENTRAL','HVERBET');
@@ -144,24 +147,52 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 				tokenDados.classes=p_param2;
 				tokenDados.classesRequisited=true;
 				toMontarForm1();
-			} else if (p_param1 == 'HOME') {			// resposta quando da iniciação do Módulo
-				toMontarDados(p_param2);
+			} else if (p_param1 == 'HOME') {			// resposta quando da iniciação do Módulo (solicitação da Árvore de Classes)
+				toMontarArvore(p_param2);
 			} else if (p_param1 == 'HLTOKENS') {		// resposta para listar tokens
 				if ( ! tokenDados.classesRequisited ) {
 					alert ("Ooooops.  Classes ainda não disponíveis");
 				} else {
-					tokenDados.tokens=p_param2;
+					tokenDados.tokens=p_param2.values;
 					toMontarListagemTokens();
 				}
 			} else if (p_param1 == 'HVERBET') {			// resposta para listagem de verbetes
-				toMontarListagemVerbetes(p_param2);
+				if ( p_param2.resultado == 'TRUE' ) {
+					toMontarListagemVerbetes(p_param2);
+				} else {
+					switch(p_param2.values){
+						case 0:
+							toMensagErro(MENS_ER08);
+							break;
+						case 1:
+							toMensagErro(MENS_ER09);
+							break;
+						default:
+							toMensagErro(MENS_ER10);
+							break;
+					}
+				}
 			} else {
 				fMensagErro(MENS_ER06);
 			}
 			break;
 		case	'RESPOSTA_TOKEN':
 			//										resposta do servido após usuário solicitar inserção de token
-			toDigitarToken(p_param1);
+			if ( p_param1.resultado == 'TRUE' ){
+				toDigitarToken(p_param1);
+			}else {
+				switch(p_param1.values){
+					case 0:
+						toMensagErro(MENS_ER10);
+						break;
+					case 1:
+						toMensagErro(MENS_ER11);
+						break;
+					default:
+						toMensagErro(MENS_ER12);
+						break;
+				}
+			}
 			break;
 		case	'TIMEOUT':
 			window.alert("timeout ",p_param1);
@@ -200,7 +231,6 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 									timedout = true;
 									vobjetoAjax.abort();
 									toMensagErro (MENS_ER03);
-									//console.log ("deu timeout aqui");
 			},2000);											// 2segundos
 //			var timer = setTimeout(tratarTimeoutComunicacao (vobjetoAjax,timedout),200);
 			vobjetoAjax.onreadystatechange = function() {
@@ -329,31 +359,31 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	** *************************************************************************************** */
 	//
 	function toRequisitarVerbetes(local,funcao) {
-		toPublicarTexto("",'CENTRAL');							// limpa toda tela 'CENTRAL'
+		toPublicarTexto("",'CENTRAL');						// limpa toda tela 'CENTRAL'
 		toRequisitarJson (local,funcao);
 	}
 	//
 	/* *************************************************************************************** **
-	*                            FUNÇÃO MONTAR DADOS INICIAIS                                   *
+	*                            FUNÇÃO MONTAR DADOS DA ÁRVORE HIERARQUICA                      *
 	** *************************************************************************************** */
 	//
-	function toMontarDados(dados) {
+	function toMontarArvore(arvore) {
 		var i;
-		tokenDados.classes=dados;							// guarda a informação das classes de tokens existentes
+		tokenDados.classes=arvore.values;					// guarda a informação das classes de tokens existentes
 		tokenDados.classesRequisited=true;					// classes de tokens estão disponíveis para utilização
 		//													Selecionar as classes PAI
-		for (i=0;i<tokenDados.classes[0].length;i++) {
-			if (tokenDados.classes[0][i].pai == 1) {
-				tokenDados.classes_pai.push({"desc": tokenDados.classes[0][i].descricao,"ident":tokenDados.classes[0][i].id_chave_classe});
+		for (i=0;i<tokenDados.classes.length;i++) {
+			if (tokenDados.classes[i].pai == 1) {
+				tokenDados.classes_pai.push({"desc": tokenDados.classes[i].descricao,"ident":tokenDados.classes[i].id_chave_classe});
 			}
 		} // for
-		for ( let i in tokenDados.classes[0]){				// calcula o número de subclasses passíveis de classificar um token
-			if ( tokenDados.classes[0][i].opcao != 0 ) {
+		for ( let i in tokenDados.classes){					// calcula o número de subclasses passíveis de classificar um token
+			if ( tokenDados.classes[i].opcao != 0 ) {
 				tokenDados.num_subclasses++;
 			}
 		} // for
 
-	} // fim da função toMontarDados()
+	} // fim da função toMontarArvore()
 	//
 	/* *************************************************************************************** **
 	*                            FUNÇÃO MONTAR LISTAGEM DE TOKENS                               *
@@ -361,13 +391,12 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	//
 	function toMontarListagemTokens(){
 		var array2=[],array3=[],array4;
-		for (let j in tokenDados.tokens[0]){
-			array2[j]=tokenDados.tokens[0][j].token_name;
+		for (let j in tokenDados.tokens){
+			array2[j]=tokenDados.tokens[j].token_name;
 		}
 		array4="<table id=\"tabletokens\"><tr><th>Token</th><th>Descrição</th></tr>";
-		for (let j in tokenDados.tokens[0]){
-		array4+="<tr><td>"+tokenDados.tokens[0][j].token_name+"</td><td>"+tokenDados.classes[0][Number(tokenDados.tokens[0][j].id_classe)-1].descricao+"</td></tr>";
-		//array4+="<tr><td>"+tokenDados.tokens[0][j].token_name+"</td><td>"+tokenDados.tokens[0][j].id_classe+"</td></tr>";
+		for (let j in tokenDados.tokens){
+			array4+="<tr><td>"+tokenDados.tokens[j].token_name+"</td><td>"+tokenDados.classes[Number(tokenDados.tokens[j].id_classe)-1].descricao+"</td></tr>";
 		}
 		array4+="</table>";
 		array3=array2.join('<br />');
@@ -387,22 +416,20 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			"5 < ocorrências < 10",
 			"2 < ocorrênicas < 5",
 			"1 ocorrência apenas"];
-
-		console.log("quantidade de verbetes= ",p_verbetes[0].length);
-		for (let j in p_verbetes[0]){
-			if (p_verbetes[0][j].ocorrencias > 100){		// mais de 100 ocorrências
+		for (let j in p_verbetes.values){
+			if (p_verbetes.values[j].ocorrencias > 100){		// mais de 100 ocorrências
 				score[0] +=1;
-			} else if (p_verbetes[0][j].ocorrencias > 40) {	// entre 40 e 100 ocorrências
+			} else if (p_verbetes.values[j].ocorrencias > 40) {	// entre 40 e 100 ocorrências
 				score[1] +=1;
-			} else if (p_verbetes[0][j].ocorrencias > 20) {	// entre 20 e 40 ocorrências
+			} else if (p_verbetes.values[j].ocorrencias > 20) {	// entre 20 e 40 ocorrências
 				score[2]++;
-			} else if (p_verbetes[0][j].ocorrencias > 10) {	// entre 10 e 20 ocorrências
+			} else if (p_verbetes.values[j].ocorrencias > 10) {	// entre 10 e 20 ocorrências
 				score[3]++;
-			} else if (p_verbetes[0][j].ocorrencias > 5) {	// entre 5 e 10 ocorrências
+			} else if (p_verbetes.values[j].ocorrencias > 5) {	// entre 5 e 10 ocorrências
 				score[4]++;
-			} else if (p_verbetes[0][j].ocorrencias > 2) {	// entre 2 e 5 ocorrências
+			} else if (p_verbetes.values[j].ocorrencias > 2) {	// entre 2 e 5 ocorrências
 				score[5]++;
-			} else if (p_verbetes[0][j].ocorrencias =1) {	// uma ocorrência
+			} else if (p_verbetes.values[j].ocorrencias =1) {	// uma ocorrência
 				score[6]++;
 			} else {
 				alert("valor estranho");
@@ -474,16 +501,16 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 			document.getElementById(tokenDados.id_pagina['SUBCLA']).innerHTML = "";
 			//																				identificar as subclasses
 			j=0;
-			pai_lft=Number(tokenDados.classes[0][tokenDados.classe_paiselected[1]].lft);
-			pai_rgt=Number(tokenDados.classes[0][tokenDados.classe_paiselected[1]].rgt);
+			pai_lft=Number(tokenDados.classes[tokenDados.classe_paiselected[1]].lft);
+			pai_rgt=Number(tokenDados.classes[tokenDados.classe_paiselected[1]].rgt);
 			tokenDados.subclasses=[],j=0;
-			for (let i in tokenDados.classes[0]){
+			for (let i in tokenDados.classes){
 				if (
-					(tokenDados.classes[0][i].lft >= pai_lft) && 
-					(tokenDados.classes[0][i].lft <= pai_rgt) && 
-					(tokenDados.classes[0][i].opcao == 1)
+					(tokenDados.classes[i].lft >= pai_lft) && 
+					(tokenDados.classes[i].lft <= pai_rgt) && 
+					(tokenDados.classes[i].opcao == 1)
 				){
-					tokenDados.subclasses[j]=[i,tokenDados.classes[0][i].descricao];
+					tokenDados.subclasses[j]=[i,tokenDados.classes[i].descricao];
 					j++;
 				} // if
 			} // for
@@ -589,10 +616,10 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	*                FUNÇÃO MOSTRAR RESPOSTA DO SERVIDOR AO FAZER INSERÇÃO TOKEN                *
 	** *************************************************************************************** */
 	//
-	function	toDigitarToken(texto) {
+	function	toDigitarToken(resposta) {
 		var selres= document.getElementById('optindice3');
 		var seltok= document.getElementById('tokenxx');
-		selres.value = texto;
+		selres.value = MENS_18+resposta.values;
 		seltok.value = "";
 
 	} // fim da função toDigitarToken
@@ -603,7 +630,7 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 	//
 	function toEnviarToken(param1,param2,param3){
 		// enviar dado ao servidor
-		var timer;
+		var timer, resposta;
 		var timedout=false;
 		var objetoAjax = toIniciarAjax();
 		if(objetoAjax) {
@@ -618,10 +645,10 @@ function toFrontEnd(p_acao,p_param1,p_param2) {
 				if(objetoAjax.readyState == 4) {
 					if(objetoAjax.status == 200 || objetoAjax.status == 304) {
 						if (timedout) return;
-						var type = objetoAjax.getResponseHeader("Content-Type");
-						if (type.match(/^text/)){				// certifica-se de que a resposta seja texto
+						if (objetoAjax.getResponseHeader("Content-Type") == "application/json"){	// certifica-se que a resposta é um JSON
 							clearTimeout(timer);
-                       		toFrontEnd('RESPOSTA_TOKEN',objetoAjax.responseText); // *** callback ***
+							resposta=JSON.parse(objetoAjax.responseText);	// converter o string JSON em um objeto Javascript
+                       		toFrontEnd('RESPOSTA_TOKEN',resposta); // *** callback ***
 						}
                    	}
 				}
